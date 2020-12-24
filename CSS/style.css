@@ -5,9 +5,23 @@ header nav a img{
 header nav div ul{
     font-size: 25pt;
 }
+header button{
+    border:none;
+    float:right;
+}
+header button img{
+    max-width: 30px;
+    background-color: black;
+    border-radius: 20px;
+    margin:5px;
+}
+
 h2{
     text-align: center;
     margin:10px auto;
+}
+body{
+    color:black;
 }
 
 /* Screen breakpoints 540px 720px 960px 1140px */
