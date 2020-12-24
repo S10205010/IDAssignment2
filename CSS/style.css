@@ -1,0 +1,7 @@
+/* Styling for the header */
+header nav a img{
+    max-width: 250px;
+}
+header nav div ul{
+    font-size: 25pt;
+}
