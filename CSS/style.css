@@ -5,3 +5,13 @@ header nav a img{
 header nav div ul{
     font-size: 25pt;
 }
+h2{
+    text-align: center;
+    margin:10px auto;
+}
+
+/* Screen breakpoints 540px 720px 960px 1140px */
+@media only screen and (max-width: 1140px) {}
+@media only screen and (max-width: 960px) {}
+@media only screen and (max-width: 720px) {}
+@media only screen and (max-width: 540px) {}
