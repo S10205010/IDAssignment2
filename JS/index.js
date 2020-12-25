@@ -111,7 +111,7 @@ $.ajax({
 //     "is_eu": false
 //   }
 // }
-fetch("http://api.ipapi.com/check?access_key=fcc0cefb939e2977b8aa4f6143767571&format=1")
+fetch("https://api.ipapi.com/check?access_key=fcc0cefb939e2977b8aa4f6143767571&format=1")
 .then(response=>response.json())
 .then(function(data){
   if (sessionStorage.getItem("IP")== null){
@@ -120,4 +120,5 @@ fetch("http://api.ipapi.com/check?access_key=fcc0cefb939e2977b8aa4f6143767571&fo
     sessionStorage.setItem("IP",null)
   }
 })
-
+// if (sessionStorage.getItem("IP")== null){
+// sessionStorage.setItem("IP",JSON.stringify(test))}
