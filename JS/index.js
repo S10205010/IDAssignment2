@@ -66,51 +66,58 @@ $.ajax({
 });
 
 //IP portion
-var test = {
-  "ip": "112.199.235.83",
-  "type": "ipv4",
-  "continent_code": "AS",
-  "continent_name": "Asia",
-  "country_code": "SG",
-  "country_name": "Singapore",
-  "region_code": "01",
-  "region_name": null,
-  "city": "Singapore",
-  "zip": null,
-  "latitude": 1.3200000524520874,
-  "longitude": 103.8198013305664,
-  "location": {
-    "geoname_id": 1880252,
-    "capital": "Singapore",
-    "languages": [
-      {
-        "code": "en",
-        "name": "English",
-        "native": "English"
-      },
-      {
-        "code": "ms",
-        "name": "Malay",
-        "native": "Bahasa Melayu"
-      },
-      {
-        "code": "ta",
-        "name": "Tamil",
-        "native": "தமிழ்"
-      },
-      {
-        "code": "zh",
-        "name": "Chinese",
-        "native": "中文"
-      }
-    ],
-    "country_flag": "http://assets.ipapi.com/flags/sg.svg",
-    "country_flag_emoji": "🇸🇬",
-    "country_flag_emoji_unicode": "U+1F1F8 U+1F1EC",
-    "calling_code": "65",
-    "is_eu": false
+// var test = {
+//   "ip": "112.199.235.83",
+//   "type": "ipv4",
+//   "continent_code": "AS",
+//   "continent_name": "Asia",
+//   "country_code": "SG",
+//   "country_name": "Singapore",
+//   "region_code": "01",
+//   "region_name": null,
+//   "city": "Singapore",
+//   "zip": null,
+//   "latitude": 1.3200000524520874,
+//   "longitude": 103.8198013305664,
+//   "location": {
+//     "geoname_id": 1880252,
+//     "capital": "Singapore",
+//     "languages": [
+//       {
+//         "code": "en",
+//         "name": "English",
+//         "native": "English"
+//       },
+//       {
+//         "code": "ms",
+//         "name": "Malay",
+//         "native": "Bahasa Melayu"
+//       },
+//       {
+//         "code": "ta",
+//         "name": "Tamil",
+//         "native": "தமிழ்"
+//       },
+//       {
+//         "code": "zh",
+//         "name": "Chinese",
+//         "native": "中文"
+//       }
+//     ],
+//     "country_flag": "http://assets.ipapi.com/flags/sg.svg",
+//     "country_flag_emoji": "🇸🇬",
+//     "country_flag_emoji_unicode": "U+1F1F8 U+1F1EC",
+//     "calling_code": "65",
+//     "is_eu": false
+//   }
+// }
+fetch("http://api.ipapi.com/check?access_key=fcc0cefb939e2977b8aa4f6143767571&format=1")
+.then(response=>response.json())
+.then(function(data){
+  if (sessionStorage.getItem("IP")== null){
+  sessionStorage.setItem("IP",JSON.stringify(data))}
+  else{
+    sessionStorage.setItem("IP",null)
   }
-}
-if (sessionStorage.getItem("IP")== null){
-  sessionStorage.setItem("IP",JSON.stringify(test))
-}
+})
+
