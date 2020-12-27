@@ -7,7 +7,11 @@ Carpe Diem is a one-stop website for users to see the weather forecast for the n
 
  As a student, I have free time during the holidays and plans to head outside for some activity. I can use Carpe Diem to check current weather at the location or look at the 2 hour weather forecast to decide if I should head to that location.
 
+ As a parent, I want to remind my children to take an umbrella. I can use Carpe Diem to look at the 24-hour weather forecast to advise my children to bring an umbrella.
+
  As a construction foreman, I have to plan the work schedule for my workers to meet the dateline of the construction project. I can use Carpe Diem to look at the 4 day weather forecast to see the next 4 days' weather. With Carpe Diem schedule feature, I can schedule my timeline on the website and receive up to date weather forecast change.
+
+ As a person that is leaving the house for various purposes, I may want to check the weather to see if I should wear a mask if the PSI index is high or bringing an umbrella is necessary or taking a full bottle of water is important. Carpe Diem has real-time PSI index reading, real-time Air temperature reading, real-time rainfall reading to help the person to make his or her decision.
 ## Features
 ### Existing Features
 
