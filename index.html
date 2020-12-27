@@ -30,19 +30,97 @@
                 </ul>
             </div>
         </nav>
-        <button id = "LightDarkMode"><img src="Images/DarkLightMode.png" alt="Icon to switch view mode"></button>
+        <button id="LightDarkMode"><img src="Images/DarkLightMode.png" alt="Icon to switch view mode"></button>
     </header>
     <main>
         <h1>Weather Forecast</h1>
         <form>
             <div>
-                <Label for = "location">Choose your nearest location:</Label>
-            <select id = "location" name = "location">  
-            </select>
-        </div>            
+                <Label for="location">Choose your nearest location:</Label>
+                <select id="location" name="location">
+                </select>
+            </div>
         </form>
-        <div>
+        <div class="container">
             <h2>Current Weather</h2>
+        </div>
+        <div class="container">
+            <h2>Weather Forecast for next 24 hour</h2>
+            <div class="row">
+                <div class="col-md">
+                    <h4>Temperature</h4>
+                </div>
+                <div class="col-md">
+                    <h4>Relative Humidity</h4>
+                </div>
+                <div class="col-md">
+                    <h4>Wind Speed</h4>
+                </div>
+                <div class="col-md">
+                    <h4>Wind Direction</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md">
+                    <Label>High:<span id="t24High"></span></Label>
+                    <br>
+                    <Label>Low:<span id="t24Low"></span></Label>
+                </div>
+                <div class="col-md">
+                    <Label>High:<span id="rh24High"></span></Label>
+                    <br>
+                    <Label>Low:<span id="rh24Low"></span></Label>
+                </div>
+                <div class="col-md">
+                    <Label>High:<span id="rh24High"></span></Label>
+                    <br>
+                    <Label>Low:<span id="rh24Low"></span></Label>
+                </div>
+                <div class="col-md">
+                    <Label>High:<span id="ws24High"></span></Label>
+                    <br>
+                    <Label>Low:<span id="ws24Low"></span></Label>
+                </div>
+            </div>
+            <br>
+            <div class="row block">
+                <div class="col-md">
+                    <Label>Time:<span id="time0"></span></Label><br>
+                    <Label>North:<span id="north0"></span></Label><br>
+                    <Label>South:<span id="south0"></span></Label><br>
+                    <Label>East:<span id="east0"></span></Label><br>
+                    <Label>West:<span id="west0"></span></Label><br>
+                    <Label>Central:<span id="central0"></span></Label>
+                </div>
+                <div class="col-md">
+                    <Label>Time:<span id="time1"></span></Label><br>
+                    <Label>North:<span id="north1"></span></Label><br>
+                    <Label>South:<span id="south1"></span></Label><br>
+                    <Label>East:<span id="east1"></span></Label><br>
+                    <Label>West:<span id="west1"></span></Label><br>
+                    <Label>Central:<span id="central1"></span></Label>
+                </div>
+                <div class="col-md">
+                    <Label>Time:<span id="time2"></span></Label><br>
+                    <Label>North:<span id="north2"></span></Label><br>
+                    <Label>South:<span id="south2"></span></Label><br>
+                    <Label>East:<span id="east2"></span></Label><br>
+                    <Label>West:<span id="west2"></span></Label><br>
+                    <Label>Central:<span id="central2"></span></Label>
+                </div>
+                <div class="col-md">
+                    <Label>Time:<span id="time3"></span></Label><br>
+                    <Label>North:<span id="north3"></span></Label><br>
+                    <Label>South:<span id="south3"></span></Label><br>
+                    <Label>East:<span id="east3"></span></Label><br>
+                    <Label>West:<span id="west3"></span></Label><br>
+                    <Label>Central:<span id="central3"></span></Label>
+                </div>
+            </div>
+            <h4>PSI Chart</h4>
+        </div>
+        <div class="container">
+            <h2>Weather Forecast for next 4 days</h2>
         </div>
     </main>
 </body>
