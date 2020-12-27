@@ -2,6 +2,13 @@
 h1{
     padding-left:42px;
 }
+h4{
+    text-align:left;
+}
+.block div{
+    border: solid 1px;
+    border-radius:20px;
+}
 /* Screen breakpoints 540px 720px 960px 1140px */
 @media only screen and (max-width: 1140px) {}
 @media only screen and (max-width: 960px) {}
