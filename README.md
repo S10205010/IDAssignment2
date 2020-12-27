@@ -18,6 +18,14 @@ Carpe Diem is a one-stop website for users to see the weather forecast for the n
 ### Features Left to Implement
 
 ## Technologies Used
+https://jquery.com/ - automatic!
+* [jQuery](https://jquery.com/)
+  * jQuery is used in this project to make DOM manipulation easier.
+
+https://getbootstrap.com/ - automatic!
+* [Bootstrap](https://getbootstrap.com/)
+  * Bootstrap is used to simplify the creation of a responsive website
+
 
 ## Testing
 
