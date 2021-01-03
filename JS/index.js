@@ -431,7 +431,9 @@ $.ajax({
     sessionStorage.setItem("psi", JSON.stringify(failedPSI));
   }
 });
-$(document).ready(function () {
+//ajaxStop is used so that all ajax is requests is completed before
+//execution
+$(document).ajaxStop(function () {
   //This portion is to extract API information form session storage.
   var airTempRT = JSON.parse(sessionStorage.getItem("airTemp"));
   var rainfallRT = JSON.parse(sessionStorage.getItem("rainfall"));
@@ -440,15 +442,46 @@ $(document).ready(function () {
   );
   var windDirectionRT = JSON.parse(sessionStorage.getItem("WindDirection"));
   var windSpeedRT = JSON.parse(sessionStorage.getItem("WindSpeed"));
-  var psi = JSON.parse(sessionStorage.getItem("psi"));
 
   var weaFc2Hr = JSON.parse(sessionStorage.getItem("02HourFC"));
   var weaFc24Hr = JSON.parse(sessionStorage.getItem("24HourFC"));
   var weaFc4d = JSON.parse(sessionStorage.getItem("4DayFC"));
-
-  
+  //Variable to be used by main program
+  var area = weaFc2Hr.area_metadata;
+  $("#locationSearch").keyup(function(){
+    //Get input from user
+    $("#location div").remove();
+    let userValue = $("#locationSearch").val().toUpperCase();
+    let userLen = userValue.length;
+    let indexResult = [];
+    //Search index of related areas
+    for(i = 0; i < area.length; i ++){
+      let areaname = area[i].name.slice(0,userLen).toUpperCase();
+      if(userValue == areaname){
+        indexResult.push(i);        
+      }
+      else{
+        continue;
+      }
+    }
+    //From index establish latitude and longitude of each respective location
+    for(i = 0;i<indexResult.length;i++){
+      let index = indexResult[i];
+      let lat = area[index].label_location.latitude;
+      let long = area[index].label_location.longitude;
+      //Labeling location
+      let name = area[index].name;
+      console.log(name);
+      $("#location").append("<div></div>")
+      currentWeather(name);
+    }
+  })
 });
 
+function currentWeather(name){
+  let disp = "<h3>"+name+"</h3>"
+  $("#location div").append(disp)
+}
 // Function to process location and output display
 // Pythagoras function to calculate distance.
 function closestDist(lat, long, lat1, long1) {
@@ -457,24 +490,4 @@ function closestDist(lat, long, lat1, long1) {
   let result = xDiff * xDiff + yDiff * yDiff;
   return result;
 }
-//Function to find closest station/reading point for weather
-function closestPoint(ip, weaFc2Hr) {
-  //user Latidude and Longitude
-  let lat = ip[0];
-  let long = ip[1];
-  let smallestDist = 10;
-  let indexWeaFc2Hr;
-  for (let i = 0; i < weaFc2Hr.area_metadata.length; i++) {
-    //station's latitude and longitude
-    let lat1 = weaFc2Hr.area_metadata[i].label_location.latitude;
-    let long1 = weaFc2Hr.area_metadata[i].label_location.longitude;
-    let distDiff = closestDist(lat, long, lat1, long1);
-    if (distDiff <= smallestDist) {
-      smallestDist = distDiff;
-      indexWeaFc2Hr = i;
-    } else {
-      continue;
-    }
-  }
-  return indexWeaFc2Hr;
-}
+
