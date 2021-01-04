@@ -5,9 +5,20 @@ h1{
 h4{
     text-align:left;
 }
-.block div{
+#locationSearch {
+    border-style: none none solid none;
+}
+.block .col-sm{
     border: solid 1px;
     border-radius:20px;
+}
+.block .col-sm div {
+    border-width: 1px;
+    border-style: none none solid none;
+    margin: 10px auto;
+}
+.block .col-sm div span {
+    float: right;
 }
 /* Screen breakpoints 540px 720px 960px 1140px */
 @media only screen and (max-width: 1140px) {}
