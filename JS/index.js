@@ -26,15 +26,6 @@ const failedAPI = {
   ],
 };
 const failed2hrFC = {
-  area_metadata: [
-    {
-      name: "null",
-      label_location: {
-        latitude: 1.375,
-        longitude: 103.839,
-      },
-    },
-  ],
   items: [
     {
       update_timestamp: "0000-00-00T00:00:00+08:00",
@@ -231,6 +222,338 @@ const failedPSI = {
     },
   ],
 };
+//Constant variable needed to run search
+const area_JSON = {"area_metadata": [
+  {
+    "name": "Ang Mo Kio",
+    "label_location": {
+      "latitude": 1.375,
+      "longitude": 103.839
+    }
+  },
+  {
+    "name": "Bedok",
+    "label_location": {
+      "latitude": 1.321,
+      "longitude": 103.924
+    }
+  },
+  {
+    "name": "Bishan",
+    "label_location": {
+      "latitude": 1.350772,
+      "longitude": 103.839
+    }
+  },
+  {
+    "name": "Boon Lay",
+    "label_location": {
+      "latitude": 1.304,
+      "longitude": 103.701
+    }
+  },
+  {
+    "name": "Bukit Batok",
+    "label_location": {
+      "latitude": 1.353,
+      "longitude": 103.754
+    }
+  },
+  {
+    "name": "Bukit Merah",
+    "label_location": {
+      "latitude": 1.277,
+      "longitude": 103.819
+    }
+  },
+  {
+    "name": "Bukit Panjang",
+    "label_location": {
+      "latitude": 1.362,
+      "longitude": 103.77195
+    }
+  },
+  {
+    "name": "Bukit Timah",
+    "label_location": {
+      "latitude": 1.325,
+      "longitude": 103.791
+    }
+  },
+  {
+    "name": "Central Water Catchment",
+    "label_location": {
+      "latitude": 1.38,
+      "longitude": 103.805
+    }
+  },
+  {
+    "name": "Changi",
+    "label_location": {
+      "latitude": 1.357,
+      "longitude": 103.987
+    }
+  },
+  {
+    "name": "Choa Chu Kang",
+    "label_location": {
+      "latitude": 1.377,
+      "longitude": 103.745
+    }
+  },
+  {
+    "name": "Clementi",
+    "label_location": {
+      "latitude": 1.315,
+      "longitude": 103.76
+    }
+  },
+  {
+    "name": "City",
+    "label_location": {
+      "latitude": 1.292,
+      "longitude": 103.844
+    }
+  },
+  {
+    "name": "Geylang",
+    "label_location": {
+      "latitude": 1.318,
+      "longitude": 103.884
+    }
+  },
+  {
+    "name": "Hougang",
+    "label_location": {
+      "latitude": 1.361218,
+      "longitude": 103.886
+    }
+  },
+  {
+    "name": "Jalan Bahar",
+    "label_location": {
+      "latitude": 1.347,
+      "longitude": 103.67
+    }
+  },
+  {
+    "name": "Jurong East",
+    "label_location": {
+      "latitude": 1.326,
+      "longitude": 103.737
+    }
+  },
+  {
+    "name": "Jurong Island",
+    "label_location": {
+      "latitude": 1.266,
+      "longitude": 103.699
+    }
+  },
+  {
+    "name": "Jurong West",
+    "label_location": {
+      "latitude": 1.34039,
+      "longitude": 103.705
+    }
+  },
+  {
+    "name": "Kallang",
+    "label_location": {
+      "latitude": 1.312,
+      "longitude": 103.862
+    }
+  },
+  {
+    "name": "Lim Chu Kang",
+    "label_location": {
+      "latitude": 1.423,
+      "longitude": 103.717332
+    }
+  },
+  {
+    "name": "Mandai",
+    "label_location": {
+      "latitude": 1.419,
+      "longitude": 103.812
+    }
+  },
+  {
+    "name": "Marine Parade",
+    "label_location": {
+      "latitude": 1.297,
+      "longitude": 103.891
+    }
+  },
+  {
+    "name": "Novena",
+    "label_location": {
+      "latitude": 1.327,
+      "longitude": 103.826
+    }
+  },
+  {
+    "name": "Pasir Ris",
+    "label_location": {
+      "latitude": 1.37,
+      "longitude": 103.948
+    }
+  },
+  {
+    "name": "Paya Lebar",
+    "label_location": {
+      "latitude": 1.358,
+      "longitude": 103.914
+    }
+  },
+  {
+    "name": "Pioneer",
+    "label_location": {
+      "latitude": 1.315,
+      "longitude": 103.675
+    }
+  },
+  {
+    "name": "Pulau Tekong",
+    "label_location": {
+      "latitude": 1.403,
+      "longitude": 104.053
+    }
+  },
+  {
+    "name": "Pulau Ubin",
+    "label_location": {
+      "latitude": 1.404,
+      "longitude": 103.96
+    }
+  },
+  {
+    "name": "Punggol",
+    "label_location": {
+      "latitude": 1.401,
+      "longitude": 103.904
+    }
+  },
+  {
+    "name": "Queenstown",
+    "label_location": {
+      "latitude": 1.291,
+      "longitude": 103.78576
+    }
+  },
+  {
+    "name": "Seletar",
+    "label_location": {
+      "latitude": 1.404,
+      "longitude": 103.869
+    }
+  },
+  {
+    "name": "Sembawang",
+    "label_location": {
+      "latitude": 1.445,
+      "longitude": 103.818495
+    }
+  },
+  {
+    "name": "Sengkang",
+    "label_location": {
+      "latitude": 1.384,
+      "longitude": 103.891443
+    }
+  },
+  {
+    "name": "Sentosa",
+    "label_location": {
+      "latitude": 1.243,
+      "longitude": 103.832
+    }
+  },
+  {
+    "name": "Serangoon",
+    "label_location": {
+      "latitude": 1.357,
+      "longitude": 103.865
+    }
+  },
+  {
+    "name": "Southern Islands",
+    "label_location": {
+      "latitude": 1.208,
+      "longitude": 103.842
+    }
+  },
+  {
+    "name": "Sungei Kadut",
+    "label_location": {
+      "latitude": 1.413,
+      "longitude": 103.756
+    }
+  },
+  {
+    "name": "Tampines",
+    "label_location": {
+      "latitude": 1.345,
+      "longitude": 103.944
+    }
+  },
+  {
+    "name": "Tanglin",
+    "label_location": {
+      "latitude": 1.308,
+      "longitude": 103.813
+    }
+  },
+  {
+    "name": "Tengah",
+    "label_location": {
+      "latitude": 1.374,
+      "longitude": 103.715
+    }
+  },
+  {
+    "name": "Toa Payoh",
+    "label_location": {
+      "latitude": 1.334304,
+      "longitude": 103.856327
+    }
+  },
+  {
+    "name": "Tuas",
+    "label_location": {
+      "latitude": 1.294947,
+      "longitude": 103.635
+    }
+  },
+  {
+    "name": "Western Islands",
+    "label_location": {
+      "latitude": 1.205926,
+      "longitude": 103.746
+    }
+  },
+  {
+    "name": "Western Water Catchment",
+    "label_location": {
+      "latitude": 1.405,
+      "longitude": 103.689
+    }
+  },
+  {
+    "name": "Woodlands",
+    "label_location": {
+      "latitude": 1.432,
+      "longitude": 103.786528
+    }
+  },
+  {
+    "name": "Yishun",
+    "label_location": {
+      "latitude": 1.418,
+      "longitude": 103.839
+    }
+  }
+]}
 // API requests
 // Formating request
 var date = new Date();
@@ -256,162 +579,6 @@ var date_time =
   date.toLocaleTimeString();
 var date_d = date.getFullYear() + "-" + month + "-" + day;
 
-//API request section
-//API Rainfall
-//Once retrieve API data, it is stored into Session storage.
-$.ajax({
-  type: "GET",
-  dataType: "json",
-  contentType: "text/plain",
-  url: "https://api.data.gov.sg/v1/environment/rainfall",
-  data: { date_time: date_time, date: date_d },
-  error: function (status, request) {
-    console.log(`Rainfall API ${request} ${status.status}`);
-    sessionStorage.setItem("rainfall", JSON.stringify(failedAPI));
-  },
-}).done(function (data) {
-  if (data.items[0].timestamp != "") {
-    sessionStorage.setItem("rainfall", JSON.stringify(data));
-  } else {
-    console.log("Failed to load Rainfall API!(API data error)");
-    sessionStorage.setItem("rainfall", JSON.stringify(failedAPI));
-  }
-});
-//API Air temperature
-$.ajax({
-  type: "GET",
-  dataType: "json",
-  contentType: "text/plain",
-  url: "https://api.data.gov.sg/v1/environment/air-temperature",
-  data: { date_time: date_time, date: date_d },
-  error: function (status, request) {
-    console.log(`Air Temperature API ${request} ${status.status}`);
-    sessionStorage.setItem("airTemp", JSON.stringify(failedAPI));
-  },
-}).done(function (data) {
-  if (data.items[0].timestamp != "") {
-    sessionStorage.setItem("airTemp", JSON.stringify(data));
-  } else {
-    console.log("Failed to load Air Temperature API!(API data error)");
-    sessionStorage.setItem("airTemp", JSON.stringify(failedAPI));
-  }
-});
-//API Relative humidity
-$.ajax({
-  type: "GET",
-  dataType: "json",
-  contentType: "text/plain",
-  url: "https://api.data.gov.sg/v1/environment/relative-humidity",
-  data: { date_time: date_time, date: date_d },
-  error: function (status, request) {
-    console.log(`Relative Humidity API ${request} ${status.status}`);
-    sessionStorage.setItem("relativeHumidity", JSON.stringify(failedAPI));
-  },
-}).done(function (data) {
-  if (data.items[0].timestamp != "") {
-    sessionStorage.setItem("relativeHumidity", JSON.stringify(data));
-  } else {
-    console.log("Failed to load Relative Humidity API! (API data error)");
-    sessionStorage.setItem("relativeHumidity", JSON.stringify(failedAPI));
-  }
-});
-//API Wind Direction
-$.ajax({
-  type: "GET",
-  dataType: "json",
-  contentType: "text/plain",
-  url: "https://api.data.gov.sg/v1/environment/wind-direction",
-  data: { date_time: date_time, date: date_d },
-  error: function (status, request) {
-    console.log(`Wind Direction API ${request} ${status.status}`);
-    sessionStorage.setItem("WindDirection", JSON.stringify(failedAPI));
-  },
-}).done(function (data) {
-  if (data.items[0].timestamp != "") {
-    sessionStorage.setItem("WindDirection", JSON.stringify(data));
-  } else {
-    console.log("Failed to load Wind Direction API! (API data error)");
-    sessionStorage.setItem("WindDirection", JSON.stringify(failedAPI));
-  }
-});
-//API Wind Speed
-$.ajax({
-  type: "GET",
-  dataType: "json",
-  contentType: "text/plain",
-  url: "https://api.data.gov.sg/v1/environment/wind-speed",
-  data: { date_time: date_time, date: date_d },
-  error: function (status, request) {
-    console.log(`Wind Speed API ${request} ${status.status}`);
-    sessionStorage.setItem("WindSpeed", JSON.stringify(failedAPI));
-  },
-}).done(function (data) {
-  if (data.items[0].timestamp != "") {
-    sessionStorage.setItem("WindSpeed", JSON.stringify(data));
-  } else {
-    console.log("Failed to load Wind Speed API! (API data error)");
-    sessionStorage.setItem("WindSpeed", JSON.stringify(failedAPI));
-  }
-});
-//API 2 hour weather forecast
-$.ajax({
-  type: "GET",
-  dataType: "json",
-  contentType: "text/plain",
-  url: "https://api.data.gov.sg/v1/environment/2-hour-weather-forecast",
-  data: { date_time: date_time, date: date_d },
-  error: function (status, request) {
-    console.log(`2 Hour Weather Forecast API ${request} ${status.status}`);
-    sessionStorage.setItem("02HourFC", JSON.stringify(failed2hrFC));
-  },
-}).done(function (data) {
-  if (data.area_metadata.length != 0) {
-    sessionStorage.setItem("02HourFC", JSON.stringify(data));
-  } else {
-    console.log("Failed to load 2 Hour Weather Forecast API! (API data error)");
-    sessionStorage.setItem("02HourFC", JSON.stringify(failed2hrFC));
-  }
-});
-//API 24 hour weather forecast
-$.ajax({
-  type: "GET",
-  dataType: "json",
-  contentType: "text/plain",
-  url: "https://api.data.gov.sg/v1/environment/24-hour-weather-forecast",
-  data: { date_time: date_time, date: date_d },
-  error: function (status, request) {
-    console.log(`24 Hour Weather Forecast API ${request} ${status.status}`);
-    sessionStorage.setItem("24HourFC", JSON.stringify(failed24hrFC));
-  },
-}).done(function (data) {
-  if (data.items.length != 1) {
-    sessionStorage.setItem("24HourFC", JSON.stringify(data));
-  } else {
-    console.log(
-      "Failed to load 24 Hour Weather Forecast API! (API data error)"
-    );
-    sessionStorage.setItem("24HourFC", JSON.stringify(failed24hrFC));
-  }
-});
-//API 4 days weather forecast
-$.ajax({
-  type: "GET",
-  dataType: "json",
-  contentType: "text/plain",
-  url: "https://api.data.gov.sg/v1/environment/4-day-weather-forecast",
-  data: { date_time: date_time, date: date_d },
-  error: function (status, request) {
-    console.log(`4 Day Weather Forecast API ${request} ${status.status}`);
-    sessionStorage.setItem("4DayFC", JSON.stringify(failed4dayFC));
-  },
-}).done(function (data) {
-  if (data.items.length != 1) {
-    sessionStorage.setItem("4DayFC", JSON.stringify(data));
-  } else {
-    console.log("Failed to load 4 Day Weather Forecast API! (API data error)");
-    sessionStorage.setItem("4DayFC", JSON.stringify(failed4dayFC));
-  }
-});
 //API for PSI
 //Plans to get full day readings
 //chart as a function
@@ -420,7 +587,7 @@ $.ajax({
   dataType: "json",
   contentType: "text/plain",
   url: "https://api.data.gov.sg/v1/environment/psi",
-  data: { date_time: date_time, date: date_d },
+  data: {date: date_d },
   error: function (status, request) {
     console.log(`PSI API ${request} ${status.status}`);
   },
@@ -430,7 +597,6 @@ $.ajax({
 $(document).ajaxStop(function () {
   //This portion is to extract API information form session storage.
   var airTempRT = JSON.parse(sessionStorage.getItem("airTemp"));
-  var rainfallRT = JSON.parse(sessionStorage.getItem("rainfall"));
   var relativeHumidityRT = JSON.parse(
     sessionStorage.getItem("relativeHumidity")
   );
@@ -441,8 +607,9 @@ $(document).ajaxStop(function () {
   var weaFc24Hr = JSON.parse(sessionStorage.getItem("24HourFC"));
   var weaFc4d = JSON.parse(sessionStorage.getItem("4DayFC"));
   //Variable to be used by main program
-  var area = weaFc2Hr.area_metadata;
+  var area = area_JSON.area_metadata;
   //Loading of 24Hour information
+  loadCurrentWeather(area);
   load24Hour(weaFc24Hr);
   //Search function
   $("#locationSearch").keyup(function () {
@@ -467,13 +634,21 @@ $(document).ajaxStop(function () {
       let long = area[index].label_location.longitude;
       //Labeling location
       let name = area[index].name;
-      console.log(name);
-      $("#location").append("<div></div>");
-      currentWeather(name);
+      $("#location").append(`<div id = "${"location"+i}"></div>`);
+      currentWeather(name,i);
     }
   });
 });
 
+function loadCurrentWeather(area){
+  //just need to print once
+    let lat = area[0].label_location.latitude;
+    let long = area[0].label_location.longitude;
+    //Labeling location
+    let name = area[0].name;
+    $("#location").append(`<div id = "${"location"+0}"></div>`);
+    currentWeather(name,0);
+}
 function load24Hour(weaFc24Hr) {
   let general = weaFc24Hr.items[0].general
   //Weather(Air Temp)
@@ -528,8 +703,7 @@ function load24Hour(weaFc24Hr) {
     weaFc24Hr.items[0].periods[2].time.start.slice(11, 19) +
     " - " +
     weaFc24Hr.items[0].periods[2].time.end.slice(11, 19);
-  $("#time3").text("Time:"+date_tp);
-  $("#time2").text(thirdPeriod);
+  $("#time3").html("Time: ("+date_tp+`)<span>${thirdPeriod}</span>`);
   // Weather forecast for first period
   $("#north2").text(thirdPeriodRegion.north)
   $("#south2").text(thirdPeriodRegion.south)
@@ -538,9 +712,9 @@ function load24Hour(weaFc24Hr) {
   $("#central2").text(thirdPeriodRegion.central)
 }
 
-function currentWeather(name) {
-  let disp = "<h3>" + name + "</h3>";
-  $("#location div").append(disp);
+function currentWeather(name,i) {
+  let disp = "<h4>" + name + "</h4>";
+  $(`#location #${"location"+i}`).append(disp);
 }
 // Function to process location and output display
 // Pythagoras function to calculate distance.
