@@ -689,7 +689,7 @@ $.ajax({
     sessionStorage.setItem("24HourFC", JSON.stringify(failed24hrFC));
   },
 }).done(function (data) {
-  if (data.items.length != 1) {
+  if (data.items.length != 0) {
     sessionStorage.setItem("24HourFC", JSON.stringify(data));
   } else {
     console.log(
@@ -710,7 +710,7 @@ $.ajax({
     sessionStorage.setItem("4DayFC", JSON.stringify(failed4dayFC));
   },
 }).done(function (data) {
-  if (data.items.length != 1) {
+  if (data.items.length != 0) {
     sessionStorage.setItem("4DayFC", JSON.stringify(data));
   } else {
     console.log("Failed to load 4 Day Weather Forecast API! (API data error)");
