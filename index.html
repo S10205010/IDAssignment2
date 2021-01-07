@@ -43,7 +43,7 @@
         <div class="container">
             <h2>Current Weather</h2>
             <div id="location">
-                <div id = "location-items">
+                <div id="location-items">
 
                 </div>
             </div>
@@ -51,53 +51,69 @@
         <div class="container">
             <h2>Weather Forecast for next 24 hour</h2>
             <div class="row">
-                <div class="col-md">
+                <div class="col-sm">
                     <h4>Temperature</h4>
                     <div>High:<span id="t24High"></span></div>
                     <div>Low:<span id="t24Low"></span></div>
                 </div>
-                <div class="col-md">
+                <div class="col-sm">
                     <h4>Relative Humidity</h4>
                     <div>High:<span id="rh24High"></span></div>
                     <div>Low:<span id="rh24Low"></span></div>
                 </div>
-                <div class="col-md">
+            </div>
+            <div class="row">
+                <div class="col-sm">
                     <h4>Wind Speed</h4>
                     <div>High:<span id="ws24High"></span></div>
                     <div>Low:<span id="ws24Low"></span></div>
                 </div>
-                <div class="col-md">
+                <div class="col-sm">
                     <h4>Wind Direction</h4>
                 </div>
             </div>
-            <br>
-            <div class="row block">
-                <div class="col-sm">
-                    <div>Time:<span id="time0"></span></div>
-                    <div>North:<span id="north0"></span></div>
-                    <div>South:<span id="south0"></span></div>
-                    <div>East:<span id="east0"></span></div>
-                    <div>West:<span id="west0"></span></div>
-                    <div>Central:<span id="central0"></span></div>
-                </div>
-                <div class="col-sm">
-                    <div>Time:<span id="time1"></span></div>
-                    <div>North:<span id="north1"></span></div>
-                    <div>South:<span id="south1"></span></div>
-                    <div>East:<span id="east1"></span></div>
-                    <div>West:<span id="west1"></span></div>
-                    <div>Central:<span id="central1"></span></div>
-                </div>
-                <div class="col-sm">
-                    <div id="time3">Time:<span id="time2"></span></div>
-                    <div>North:<span id="north2"></span></div>
-                    <div>South:<span id="south2"></span></div>
-                    <div>East:<span id="east2"></span></div>
-                    <div>West:<span id="west2"></span></div>
-                    <div>Central:<span id="central2"></span></div>
-                </div>
+        </div>
+        <br>
+        <div class="row block">
+            <div class="col-sm">
+                <div>Start Time:<span id="stime0"></span></div>
+                <div>End Time:<span id="etime0"></span></div>
+                <div>North:<span id="north0"></span></div>
+                <div>South:<span id="south0"></span></div>
+                <div>East:<span id="east0"></span></div>
+                <div>West:<span id="west0"></span></div>
+                <div>Central:<span id="central0"></span></div>
             </div>
-            <h4>PSI Chart</h4>
+            <div class="col-sm">
+                <div>Start Time:<span id="stime1"></span></div>
+                <div>End Time:<span id="etime1"></span></div>
+                <div>North:<span id="north1"></span></div>
+                <div>South:<span id="south1"></span></div>
+                <div>East:<span id="east1"></span></div>
+                <div>West:<span id="west1"></span></div>
+                <div>Central:<span id="central1"></span></div>
+            </div>
+            <div class="col-sm">
+                <div>Start Time:<span id="stime2"></span></div>
+                <div>End Time:<span id="etime2"></span></div>
+                <div>North:<span id="north2"></span></div>
+                <div>South:<span id="south2"></span></div>
+                <div>East:<span id="east2"></span></div>
+                <div>West:<span id="west2"></span></div>
+                <div>Central:<span id="central2"></span></div>
+            </div>
+        </div>
+        <div>
+            <h3>PSI Chart</h3>
+            <div id="psi-container">
+                <canvas id="PSIChart">
+
+                </canvas>
+            </div>
+
+        </div>
+
+
         </div>
         <div class="container">
             <h2>Weather Forecast for next 4 days</h2>
@@ -114,6 +130,7 @@
     integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
     crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
 <script src="JS/script.js"></script>
 <script src="JS/index.js"></script>
 

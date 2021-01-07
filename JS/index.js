@@ -26,16 +26,58 @@ var date_d = date.getFullYear() + "-" + month + "-" + day;
 //API for PSI
 //Plans to get full day readings
 //chart as a function
+let previous_date = date;
+previous_date.setDate(date.getDate() - 1);
+let date_p =
+  previous_date.getFullYear() +
+  "-" +
+  ("0" + (previous_date.getMonth() + 1)).slice(-2) +
+  "-" +
+  ("0" + previous_date.getDate()).slice(-2);
 $.ajax({
   type: "GET",
   dataType: "json",
   contentType: "text/plain",
   url: "https://api.data.gov.sg/v1/environment/psi",
-  data: {date: date_d },
+  data: { date: date_p },
   error: function (status, request) {
     console.log(`PSI API ${request} ${status.status}`);
   },
-}).done(function (data) {});
+}).done(function (data) {
+  let psiData = [];
+  let hour = date.getHours() - 1;
+  let label = [];
+  for (i = hour; i < data.items.length; i++) {
+    let timeStamp = data.items[i].timestamp.slice(11, 19);
+    label.push(timeStamp);
+    let reading = data.items[i].readings.psi_twenty_four_hourly;
+    psiData.push(reading);
+  }
+  label.push("00:00:00");
+  psiData.push(
+    data.items[data.items.length - 1].readings.psi_twenty_four_hourly
+  );
+  $.ajax({
+    type: "GET",
+    dataType: "json",
+    contentType: "text/plain",
+    url: "https://api.data.gov.sg/v1/environment/psi",
+    data: { date: date_d },
+    error: function (status, request) {
+      console.log(`PSI API ${request} ${status.status}`);
+    },
+  }).done(function (data) {
+    for (i = 0; i < data.items.length; i++) {
+      let timeStamp = data.items[i].timestamp.slice(11, 19);
+      label.push(timeStamp);
+      let reading = data.items[i].readings.psi_twenty_four_hourly;
+      psiData.push(reading);
+    }
+    sessionStorage.setItem("psiHour", JSON.stringify(label));
+    sessionStorage.setItem("psiData", JSON.stringify(psiData));
+  });
+});
+
 //ajaxStop is used so that all ajax is requests is completed before
 //execution
 $(document).ajaxStop(function () {
@@ -50,11 +92,18 @@ $(document).ajaxStop(function () {
   var weaFc2Hr = JSON.parse(sessionStorage.getItem("02HourFC"));
   var weaFc24Hr = JSON.parse(sessionStorage.getItem("24HourFC"));
   var weaFc4d = JSON.parse(sessionStorage.getItem("4DayFC"));
+  var label = JSON.parse(sessionStorage.getItem("psiHour"));
+  var psiData = JSON.parse(sessionStorage.getItem("psiData"));
   //Variable to be used by main program
   var area = area_JSON.area_metadata;
-  //Loading of 24Hour information
+  //Loading of website information
   loadCurrentWeather(area);
   load24Hour(weaFc24Hr);
+  chartPSI(label, psiData);
+  //light dark mode function
+  $("#LightDarkMode").click(function () {
+    chartPSI(label, psiData);
+  })
   //Search function
   $("#locationSearch").keyup(function () {
     //Get input from user
@@ -78,43 +127,234 @@ $(document).ajaxStop(function () {
       let long = area[index].label_location.longitude;
       //Labeling location
       let name = area[index].name;
-      $("#location").append(`<div id = "${"location"+i}"></div>`);
-      currentWeather(name,i);
+      $("#location").append(`<div id = "${"location" + i}"></div>`);
+      currentWeather(name, i);
     }
   });
 });
 
-function loadCurrentWeather(area){
+function extractPSI(psiData, a,label_x) {
+  let north = [];
+  let south = [];
+  let east = [];
+  let west = [];
+  let central = [];
+  label_x.reverse()
+  let label = [];
+  for (i = a; i < psiData.length; i++) {
+    north.push(psiData[i].north);
+    south.push(psiData[i].south);
+    east.push(psiData[i].east);
+    west.push(psiData[i].west);
+    central.push(psiData[i].central);
+    label.push(label_x[i]);
+  }
+  let result = [north, south, east, west, central,label];
+  return result;
+}
+function chartPSI(label_x, psiData) {
+  let a = 0;
+  let viewLen = $(window).width();
+  if (viewLen < 540) {
+    a = 17;
+  } else if (viewLen < 720) {
+    a = 11;
+  } else if (viewLen < 960) {
+    a = 5;
+  }
+  console.log(a);
+  let result = extractPSI(psiData, a,label_x);
+  let north = result[0];
+  let south = result[1];
+  let east = result[2];
+  let west = result[3];
+  let central = result[4];
+  let label = result[5];
+  var ctx = $("#PSIChart");
+  if (localStorage.getItem("LightDarkMode") == 'true'){
+    var myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: label,
+        datasets: [
+            {
+              label: "North",
+              data: north,
+              backgroundColor:[
+                "rgba(255,0,0,0.2)"
+              ],
+              borderColor:[
+                "rgba(255,0,0,1)"
+              ]
+            },
+            {
+              label: "South",
+              data: south,
+              backgroundColor:[
+                "rgba(255,255,0,0.2)"              
+              ],
+              borderColor:[
+                "rgba(255,255,0,1)"
+              ]
+            },
+            {
+              label: "East",
+              data: east,
+              backgroundColor:[
+                "rgba(0,0,255,0.2)"
+              ],
+              borderColor:[
+                "rgba(0,0,255,1)"
+              ]
+            },
+            {
+              label: "West",
+              data: west,
+              backgroundColor:[
+                "rgba(255,0,255,0.2)"
+              ],
+              borderColor:[
+                "rgba(255,0,255,1)"
+              ]
+            },
+            {
+              label: "Central",
+              data: central,
+              backgroundColor:[
+                "rgba(0,255,255,0.2)"
+              ],
+              borderColor:[
+                "rgba(0,255,255,1)"
+              ]
+            },
+          ],
+          
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: false,
+              },
+            },
+          ],
+        },
+        events:[]
+      },
+    });
+  }else{
+    var myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: label,
+        datasets: [
+            {
+              label: "North",
+              data: north,
+              backgroundColor:[
+                "rgba(100,0,0,0.2)"
+              ],
+              borderColor:[
+                "rgba(100,0,0,1)"
+              ]
+            },
+            {
+              label: "South",
+              data: south,
+              backgroundColor:[
+                "rgba(100,100,0,0.2)"              
+              ],
+              borderColor:[
+                "rgba(100,100,0,1)"
+              ]
+            },
+            {
+              label: "East",
+              data: east,
+              backgroundColor:[
+                "rgba(0,0,100,0.2)"
+              ],
+              borderColor:[
+                "rgba(0,0,100,1)"
+              ]
+            },
+            {
+              label: "West",
+              data: west,
+              backgroundColor:[
+                "rgba(100,0,100,0.2)"
+              ],
+              borderColor:[
+                "rgba(100,0,100,1)"
+              ]
+            },
+            {
+              label: "Central",
+              data: central,
+              backgroundColor:[
+                "rgba(0,100,100,0.2)"
+              ],
+              borderColor:[
+                "rgba(0,100,100,1)"
+              ]
+            },
+          ],
+          
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: false,
+              },
+            },
+          ],
+        },
+        events:[]
+      },
+    });
+  }
+}
+function loadCurrentWeather(area) {
   //just need to print once
-    let lat = area[0].label_location.latitude;
-    let long = area[0].label_location.longitude;
-    //Labeling location
-    let name = area[0].name;
-    $("#location").append(`<div id = "${"location"+0}"></div>`);
-    currentWeather(name,0);
+  let lat = area[0].label_location.latitude;
+  let long = area[0].label_location.longitude;
+  //Labeling location
+  let name = area[0].name;
+  $("#location").append(`<div id = "${"location" + 0}"></div>`);
+  currentWeather(name, 0);
 }
 function load24Hour(weaFc24Hr) {
-  let general = weaFc24Hr.items[0].general
+  let general = weaFc24Hr.items[0].general;
   //Weather(Air Temp)
-  $("#t24High").text(general.temperature.high +" °C")
-  $("#t24Low").text(general.temperature.low+" °C")
+  $("#t24High").text(general.temperature.high + " °C");
+  $("#t24Low").text(general.temperature.low + " °C");
   // Weather (Relative Humidity)
-  $("#rh24High").text(general.relative_humidity.low+" %")
-  $("#rh24Low").text(general.relative_humidity.low+" %")
+  $("#rh24High").text(general.relative_humidity.high + " %");
+  $("#rh24Low").text(general.relative_humidity.low + " %");
   //Weather (Wind Speed)
-  $("#ws24High").text(general.wind.speed.low+" knots")
-  $("#ws24Low").text(general.wind.speed.low+" knots")
+  $("#ws24High").text(general.wind.speed.high + " knots");
+  $("#ws24Low").text(general.wind.speed.low + " knots");
   // Weather(Sky)
   let firstPeriodRegion = weaFc24Hr.items[0].periods[0].regions;
   let secondPeriodRegion = weaFc24Hr.items[0].periods[1].regions;
   let thirdPeriodRegion = weaFc24Hr.items[0].periods[2].regions;
 
   //First period
-  let firstPeriod =
-    weaFc24Hr.items[0].periods[0].time.start.slice(11, 19) +
-    " - " +
+  let firstStart =
+    "(" +
+    weaFc24Hr.items[0].periods[0].time.start.slice(0, 10) +
+    ") " +
+    weaFc24Hr.items[0].periods[0].time.start.slice(11, 19);
+  let firstEnd =
+    "(" +
+    weaFc24Hr.items[0].periods[0].time.end.slice(0, 10) +
+    ") " +
     weaFc24Hr.items[0].periods[0].time.end.slice(11, 19);
-  $("#time0").text(firstPeriod);
+  $("#stime0").text(firstStart);
+  $("#etime0").text(firstEnd);
   // Weather forecast for first period
   $("#north0").text(firstPeriodRegion.north);
   $("#south0").text(firstPeriodRegion.south);
@@ -123,11 +363,19 @@ function load24Hour(weaFc24Hr) {
   $("#central0").text(firstPeriodRegion.central);
 
   //Second period
-  let secondPeriod =
-    weaFc24Hr.items[0].periods[1].time.start.slice(11, 19) +
-    " - " +
+  let secondStart =
+    "(" +
+    weaFc24Hr.items[0].periods[1].time.start.slice(0, 10) +
+    ") " +
+    weaFc24Hr.items[0].periods[1].time.start.slice(11, 19);
+  let secondEnd =
+    "(" +
+    weaFc24Hr.items[0].periods[1].time.end.slice(0, 10) +
+    ") " +
     weaFc24Hr.items[0].periods[1].time.end.slice(11, 19);
-  $("#time1").text(secondPeriod);
+  $("#stime1").text(secondStart);
+  $("#etime1").text(secondEnd);
+
   // Weather forecast for second period
   $("#north1").text(secondPeriodRegion.north);
   $("#south1").text(secondPeriodRegion.south);
@@ -136,29 +384,30 @@ function load24Hour(weaFc24Hr) {
   $("#central1").text(secondPeriodRegion.central);
 
   //Third Period
-
-  let date_tp =
-    date.getFullYear() +
-    "-" +
-    month +
-    "-" +
-    ("0" + (parseInt(day) + 1)).slice(-2);
-  let thirdPeriod =
-    weaFc24Hr.items[0].periods[2].time.start.slice(11, 19) +
-    " - " +
+  let thirdStart =
+    "(" +
+    weaFc24Hr.items[0].periods[2].time.start.slice(0, 10) +
+    ") " +
+    weaFc24Hr.items[0].periods[2].time.start.slice(11, 19);
+  let thirdEnd =
+    "(" +
+    weaFc24Hr.items[0].periods[2].time.end.slice(0, 10) +
+    ") " +
     weaFc24Hr.items[0].periods[2].time.end.slice(11, 19);
-  $("#time3").html("Time: ("+date_tp+`)<span>${thirdPeriod}</span>`);
+  $("#stime2").text(thirdStart);
+  $("#etime2").text(thirdEnd);
+
   // Weather forecast for first period
-  $("#north2").text(thirdPeriodRegion.north)
-  $("#south2").text(thirdPeriodRegion.south)
-  $("#east2").text(thirdPeriodRegion.east)
-  $("#west2").text(thirdPeriodRegion.west)
-  $("#central2").text(thirdPeriodRegion.central)
+  $("#north2").text(thirdPeriodRegion.north);
+  $("#south2").text(thirdPeriodRegion.south);
+  $("#east2").text(thirdPeriodRegion.east);
+  $("#west2").text(thirdPeriodRegion.west);
+  $("#central2").text(thirdPeriodRegion.central);
 }
 
-function currentWeather(name,i) {
+function currentWeather(name, i) {
   let disp = "<h4>" + name + "</h4>";
-  $(`#location #${"location"+i}`).append(disp);
+  $(`#location #${"location" + i}`).append(disp);
 }
 // Function to process location and output display
 // Pythagoras function to calculate distance.
