@@ -100,10 +100,12 @@ $(document).ajaxStop(function () {
   loadCurrentWeather(area);
   load24Hour(weaFc24Hr);
   chartPSI(label, psiData);
+  chart4Day(weaFc24Hr, weaFc4d);
   //light dark mode function
-  $("#LightDarkMode").click(function () {
+  $(document).click(function () {
     chartPSI(label, psiData);
-  })
+    chart4Day(weaFc24Hr, weaFc4d);
+  });
   //Search function
   $("#locationSearch").keyup(function () {
     //Get input from user
@@ -133,13 +135,12 @@ $(document).ajaxStop(function () {
   });
 });
 
-function extractPSI(psiData, a,label_x) {
+function extractPSI(psiData, a, label_x) {
   let north = [];
   let south = [];
   let east = [];
   let west = [];
   let central = [];
-  label_x.reverse()
   let label = [];
   for (i = a; i < psiData.length; i++) {
     north.push(psiData[i].north);
@@ -149,7 +150,7 @@ function extractPSI(psiData, a,label_x) {
     central.push(psiData[i].central);
     label.push(label_x[i]);
   }
-  let result = [north, south, east, west, central,label];
+  let result = [north, south, east, west, central, label];
   return result;
 }
 function chartPSI(label_x, psiData) {
@@ -162,8 +163,7 @@ function chartPSI(label_x, psiData) {
   } else if (viewLen < 960) {
     a = 5;
   }
-  console.log(a);
-  let result = extractPSI(psiData, a,label_x);
+  let result = extractPSI(psiData, a, label_x);
   let north = result[0];
   let south = result[1];
   let east = result[2];
@@ -171,64 +171,48 @@ function chartPSI(label_x, psiData) {
   let central = result[4];
   let label = result[5];
   var ctx = $("#PSIChart");
-  if (localStorage.getItem("LightDarkMode") == 'true'){
+  if (localStorage.getItem("LightDarkMode") == "true") {
     var myChart = new Chart(ctx, {
       type: "line",
       data: {
         labels: label,
         datasets: [
-            {
-              label: "North",
-              data: north,
-              backgroundColor:[
-                "rgba(255,0,0,0.2)"
-              ],
-              borderColor:[
-                "rgba(255,0,0,1)"
-              ]
-            },
-            {
-              label: "South",
-              data: south,
-              backgroundColor:[
-                "rgba(255,255,0,0.2)"              
-              ],
-              borderColor:[
-                "rgba(255,255,0,1)"
-              ]
-            },
-            {
-              label: "East",
-              data: east,
-              backgroundColor:[
-                "rgba(0,0,255,0.2)"
-              ],
-              borderColor:[
-                "rgba(0,0,255,1)"
-              ]
-            },
-            {
-              label: "West",
-              data: west,
-              backgroundColor:[
-                "rgba(255,0,255,0.2)"
-              ],
-              borderColor:[
-                "rgba(255,0,255,1)"
-              ]
-            },
-            {
-              label: "Central",
-              data: central,
-              backgroundColor:[
-                "rgba(0,255,255,0.2)"
-              ],
-              borderColor:[
-                "rgba(0,255,255,1)"
-              ]
-            },
-          ],
-          
+          {
+            label: "North",
+            data: north,
+            backgroundColor: ["rgba(255,0,0,0.2)"],
+            borderColor: ["rgba(255,0,0,1)"],
+            hoverBackgroundColor: ["rgba(0,0,0,1)"],
+          },
+          {
+            label: "South",
+            data: south,
+            backgroundColor: ["rgba(255,255,0,0.2)"],
+            borderColor: ["rgba(255,255,0,1)"],
+            hoverBackgroundColor: ["rgba(0,0,0,1)"],
+          },
+          {
+            label: "East",
+            data: east,
+            backgroundColor: ["rgba(0,0,255,0.2)"],
+            borderColor: ["rgba(0,0,255,1)"],
+            hoverBackgroundColor: ["rgba(0,0,0,1)"],
+          },
+          {
+            label: "West",
+            data: west,
+            backgroundColor: ["rgba(255,0,255,0.2)"],
+            borderColor: ["rgba(255,0,255,1)"],
+            hoverBackgroundColor: ["rgba(0,0,0,1)"],
+          },
+          {
+            label: "Central",
+            data: central,
+            backgroundColor: ["rgba(0,255,255,0.2)"],
+            borderColor: ["rgba(0,255,255,1)"],
+            hoverBackgroundColor: ["rgba(0,0,0,1)"],
+          },
+        ],
       },
       options: {
         scales: {
@@ -240,67 +224,45 @@ function chartPSI(label_x, psiData) {
             },
           ],
         },
-        events:[]
       },
     });
-  }else{
+  } else {
     var myChart = new Chart(ctx, {
       type: "line",
       data: {
         labels: label,
         datasets: [
-            {
-              label: "North",
-              data: north,
-              backgroundColor:[
-                "rgba(100,0,0,0.2)"
-              ],
-              borderColor:[
-                "rgba(100,0,0,1)"
-              ]
-            },
-            {
-              label: "South",
-              data: south,
-              backgroundColor:[
-                "rgba(100,100,0,0.2)"              
-              ],
-              borderColor:[
-                "rgba(100,100,0,1)"
-              ]
-            },
-            {
-              label: "East",
-              data: east,
-              backgroundColor:[
-                "rgba(0,0,100,0.2)"
-              ],
-              borderColor:[
-                "rgba(0,0,100,1)"
-              ]
-            },
-            {
-              label: "West",
-              data: west,
-              backgroundColor:[
-                "rgba(100,0,100,0.2)"
-              ],
-              borderColor:[
-                "rgba(100,0,100,1)"
-              ]
-            },
-            {
-              label: "Central",
-              data: central,
-              backgroundColor:[
-                "rgba(0,100,100,0.2)"
-              ],
-              borderColor:[
-                "rgba(0,100,100,1)"
-              ]
-            },
-          ],
-          
+          {
+            label: "North",
+            data: north,
+            backgroundColor: ["rgba(100,0,0,0.2)"],
+            borderColor: ["rgba(100,0,0,1)"],
+          },
+          {
+            label: "South",
+            data: south,
+            backgroundColor: ["rgba(100,100,0,0.2)"],
+            borderColor: ["rgba(100,100,0,1)"],
+          },
+          {
+            label: "East",
+            data: east,
+            backgroundColor: ["rgba(0,0,100,0.2)"],
+            borderColor: ["rgba(0,0,100,1)"],
+          },
+          {
+            label: "West",
+            data: west,
+            backgroundColor: ["rgba(100,0,100,0.2)"],
+            borderColor: ["rgba(100,0,100,1)"],
+          },
+          {
+            label: "Central",
+            data: central,
+            backgroundColor: ["rgba(0,100,100,0.2)"],
+            borderColor: ["rgba(0,100,100,1)"],
+          },
+        ],
       },
       options: {
         scales: {
@@ -312,7 +274,6 @@ function chartPSI(label_x, psiData) {
             },
           ],
         },
-        events:[]
       },
     });
   }
@@ -403,6 +364,226 @@ function load24Hour(weaFc24Hr) {
   $("#east2").text(thirdPeriodRegion.east);
   $("#west2").text(thirdPeriodRegion.west);
   $("#central2").text(thirdPeriodRegion.central);
+}
+function chart4Day(weaFc24Hr, weaFc4d) {
+  let general = weaFc24Hr.items[0].general;
+  let forecast = weaFc4d.items[0].forecasts;
+  let label = [];
+  let tempHigh = [];
+  let tempLow = [];
+  let rhHigh = [];
+  let rhLow = [];
+  let wsHigh = [];
+  let wsLow = [];
+  tempHigh.push(general.temperature.high);
+  tempLow.push(general.temperature.low);
+  rhHigh.push(general.relative_humidity.high);
+  rhLow.push(general.relative_humidity.low);
+  wsHigh.push(general.wind.speed.high);
+  wsLow.push(general.wind.speed.low);
+  label.push(date_d);
+  for (i = 0; i < forecast.length; i++) {
+    label.push(forecast[i].date);
+    tempHigh.push(forecast[i].temperature.high);
+    tempLow.push(forecast[i].temperature.low);
+    rhHigh.push(forecast[i].relative_humidity.high);
+    rhLow.push(forecast[i].relative_humidity.low);
+    wsHigh.push(forecast[i].wind.speed.high);
+    wsLow.push(forecast[i].wind.speed.low);
+  }
+
+  var ttx = $("#4dTemp");
+  var rtx = $("#4drh");
+  var wtx = $("#4dws");
+  if (localStorage.getItem("LightDarkMode") == "true") {
+    var d4Chart = new Chart(ttx, {
+      type: "line",
+      data: {
+        labels: label,
+        datasets: [
+          {
+            label: "High(°C)",
+            data: tempHigh,
+            backgroundColor: ["rgba(255,0,0,0.2)"],
+            borderColor: ["rgba(255,0,0,1)"],
+          },
+          {
+            label: "Low(°C)",
+            data: tempLow,
+            backgroundColor: ["rgba(255,255,0,0.2)"],
+            borderColor: ["rgba(255,255,0,1)"],
+          },
+        ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: false,
+              },
+            },
+          ],
+        },
+      },
+    });
+    var r4Chart = new Chart(rtx, {
+      type: "line",
+      data: {
+        labels: label,
+        datasets: [
+          {
+            label: "High(%)",
+            data: rhHigh,
+            backgroundColor: ["rgba(0,0,255,0.2)"],
+            borderColor: ["rgba(0,0,255,1)"],
+          },
+          {
+            label: "Low(%)",
+            data: rhLow,
+            backgroundColor: ["rgba(0,255,255,0.2)"],
+            borderColor: ["rgba(0,255,255,1)"],
+          },
+        ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: false,
+              },
+            },
+          ],
+        },
+      },
+    });
+    var w4Chart = new Chart(wtx, {
+      type: "line",
+      data: {
+        labels: label,
+        datasets: [
+          {
+            label: "High(knots)",
+            data: wsHigh,
+            backgroundColor: ["rgba(0,255,0,0.2)"],
+            borderColor: ["rgba(0,255,0,1)"],
+          },
+          {
+            label: "Low(knots)",
+            data: wsLow,
+            backgroundColor: ["rgba(255,0,255,0.2)"],
+            borderColor: ["rgba(255,0,255,1)"],
+          },
+        ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: false,
+              },
+            },
+          ],
+        },
+      },
+    });
+  }else{
+    var d4Chart = new Chart(ttx, {
+      type: "line",
+      data: {
+        labels: label,
+        datasets: [
+          {
+            label: "High(°C)",
+            data: tempHigh,
+            backgroundColor: ["rgba(150,0,0,0.2)"],
+            borderColor: ["rgba(150,0,0,1)"],
+          },
+          {
+            label: "Low(°C)",
+            data: tempLow,
+            backgroundColor: ["rgba(150,150,0,0.2)"],
+            borderColor: ["rgba(150,150,0,1)"],
+          },
+        ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: false,
+              },
+            },
+          ],
+        },
+      },
+    });
+    var r4Chart = new Chart(rtx, {
+      type: "line",
+      data: {
+        labels: label,
+        datasets: [
+          {
+            label: "High(%)",
+            data: rhHigh,
+            backgroundColor: ["rgba(0,0,150,0.2)"],
+            borderColor: ["rgba(0,0,150,1)"],
+          },
+          {
+            label: "Low(%)",
+            data: rhLow,
+            backgroundColor: ["rgba(0,150,150,0.2)"],
+            borderColor: ["rgba(0,150,150,1)"],
+          },
+        ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: false,
+              },
+            },
+          ],
+        },
+      },
+    });
+    var w4Chart = new Chart(wtx, {
+      type: "line",
+      data: {
+        labels: label,
+        datasets: [
+          {
+            label: "High(knots)",
+            data: wsHigh,
+            backgroundColor: ["rgba(0,150,0,0.2)"],
+            borderColor: ["rgba(0,150,0,1)"],
+          },
+          {
+            label: "Low(knots)",
+            data: wsLow,
+            backgroundColor: ["rgba(150,0,150,0.2)"],
+            borderColor: ["rgba(150,0,150,1)"],
+          },
+        ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: false,
+              },
+            },
+          ],
+        },
+      },
+    });
+  }
 }
 
 function currentWeather(name, i) {
