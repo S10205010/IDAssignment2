@@ -12,19 +12,30 @@ h4{
     border: solid 1px;
     border-radius:20px;
 }
-.block .col-sm div {
+.period0,.period1,.period2{
+    border-width:3px;
+    border-radius: 10px;
+    border-style: dashed ridge dashed ridge;
+}
+.time div{
     border-width: 1px;
     border-style: none none solid none;
     margin: 10px auto;
 }
-.block .col-sm div span {
+.period0 div div,.period1 div div,.period2 div div{
+    text-align: right;
+    border-width: 1px;
+    border-style: none none solid none;
+    margin: 10px auto;
+}
+.col-sm div span {
     float: right;
 }
 /* Screen breakpoints 540px 720px 960px 1140px */
-@media only screen and (max-width: 1140px) {}
-@media only screen and (max-width: 960px) {}
-@media only screen and (max-width: 720px) {}
-@media only screen and (max-width: 540px) {
+@media only screen and (max-width: 1200x) {}
+@media only screen and (max-width: 992px) {}
+@media only screen and (max-width: 768px) {}
+@media only screen and (max-width: 576px) {
     body{
         font-size:10pt;
     }

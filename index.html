@@ -79,6 +79,7 @@
                         </div>
                         <div class="col-sm">
                             <h4>Wind Direction</h4>
+                            <div>Direction: <span id="wd24"></span></div>
                         </div>
                     </div>
                 </div>
@@ -87,39 +88,66 @@
         <br>
         <div class="container">
             <div class="row block">
-                <div class="col-sm">
-                    <div>Start Time:<span id="stime0"></span></div>
-                    <div>End Time:<span id="etime0"></span></div>
-                    <div>North:<span id="north0"></span></div>
-                    <div>South:<span id="south0"></span></div>
-                    <div>East:<span id="east0"></span></div>
-                    <div>West:<span id="west0"></span></div>
-                    <div>Central:<span id="central0"></span></div>
+                <div class="col-sm firstPeriod">
+                    <div class="time">
+                        <div>Start Time:<span id="stime0"></span></div>
+                        <div>End Time:<span id="etime0"></span></div>
+                    </div>
+                    <div class="period0">
+                        <div>North:<div id="north0"></div>
+                        </div>
+                        <div>South:<div id="south0"></div>
+                        </div>
+                        <div>East:<div id="east0"></div>
+                        </div>
+                        <div>West:<div id="west0"></div>
+                        </div>
+                        <div>Central:<div id="central0"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm">
-                    <div>Start Time:<span id="stime1"></span></div>
-                    <div>End Time:<span id="etime1"></span></div>
-                    <div>North:<span id="north1"></span></div>
-                    <div>South:<span id="south1"></span></div>
-                    <div>East:<span id="east1"></span></div>
-                    <div>West:<span id="west1"></span></div>
-                    <div>Central:<span id="central1"></span></div>
+                <div class="col-sm secondPeriod">
+                    <div class="time">
+                        <div>Start Time:<span id="stime1"></span></div>
+                        <div>End Time:<span id="etime1"></span></div>
+                    </div>
+                    <div class="period1">
+                        <div>North:<div id="north1"></div>
+                        </div>
+                        <div>South:<div id="south1"></div>
+                        </div>
+                        <div>East:<div id="east1"></div>
+                        </div>
+                        <div>West:<div id="west1"></div>
+                        </div>
+                        <div>Central:<div id="central1"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm">
-                    <div>Start Time:<span id="stime2"></span></div>
-                    <div>End Time:<span id="etime2"></span></div>
-                    <div>North:<span id="north2"></span></div>
-                    <div>South:<span id="south2"></span></div>
-                    <div>East:<span id="east2"></span></div>
-                    <div>West:<span id="west2"></span></div>
-                    <div>Central:<span id="central2"></span></div>
+                <div class="col-sm thirdPeriod">
+                    <div class="time">
+                        <div>Start Time:<span id="stime2"></span></div>
+                        <div>End Time:<span id="etime2"></span></div>
+                    </div>
+                    <div class="period2">
+                        <div>North:<div id="north2"></div>
+                        </div>
+                        <div>South:<div id="south2"></div>
+                        </div>
+                        <div>East:<div id="east2"></div>
+                        </div>
+                        <div>West:<div id="west2"></div>
+                        </div>
+                        <div>Central:<div id="central2"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>
                 <br>
                 <h3>PSI Chart</h3>
-                <div id="psi-container">                    
-                    <canvas id="PSIChart"height="250">
+                <div id="psi-container">
+                    <canvas id="PSIChart" height="200">
 
                     </canvas>
                 </div>
@@ -148,7 +176,9 @@
                     </canvas>
                 </div>
             </div>
-            <div class ="row"></div>
+            <div class="row">
+                <day class="col-sm"></day>
+            </div>
         </div>
     </main>
 </body>

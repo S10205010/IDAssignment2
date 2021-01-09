@@ -95,17 +95,55 @@ $(document).ajaxStop(function () {
   var area = area_JSON.area_metadata;
   var hide = true;
   //Loading of website information
-  loadCurrentWeather(area,airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT);
+  loadCurrentWeather(
+    area,
+    airTempRT,
+    weaFc2Hr,
+    relativeHumidityRT,
+    windSpeedRT
+  );
   load24Hour(weaFc24Hr);
+
   chartPSI(label, psiData);
   chart4Day(weaFc24Hr, weaFc4d);
   //light dark mode function
-  //To refresh the chart
-  $(document).click(function () {
+  $("#LightDarkMode").click(function () {
     chartPSI(label, psiData);
     chart4Day(weaFc24Hr, weaFc4d);
   });
   if ($(window).width() <= 768) {
+    var period0 = true;
+    $(".firstPeriod").click(function () {
+      if (period0 == true) {
+        $(".period0").show();
+        period0 = false;
+      } else {
+        $(".period0").hide();
+        period0 = true;
+      }
+    });
+    var period1 = true;
+    $(".secondPeriod").click(function () {
+      if (period1 == true) {
+        $(".period1").show();
+        period1 = false;
+      } else {
+        $(".period1").hide();
+        period1 = true;
+      }
+    });
+    var period2 = true;
+    $(".thirdPeriod").click(function () {
+      if (period2 == true) {
+        $(".period2").show();
+        period2 = false;
+      } else {
+        $(".period2").hide();
+        period2 = true;
+      }
+    });
+
+
     $("main form div input").remove();
     $("main form div").append("<select id ='indexLocation'></select");
     displayIndexLocation(area);
@@ -118,59 +156,91 @@ $(document).ajaxStop(function () {
       let name = area[index].name;
       $("#location").append(`<div id = "${"location" + index}"></div>`);
       weatherLocation(name, index);
-      currentWeather(lat, long, airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT,index);
+      currentWeather(
+        lat,
+        long,
+        airTempRT,
+        weaFc2Hr,
+        relativeHumidityRT,
+        windSpeedRT,
+        index
+      );
       $(`#${"location" + index} areadata`).hide();
-      $(`#${"location" + index}`).click(function(){
-        if (hide == true){
+      $(`#${"location" + index}`).click(function () {
+        if (hide == true) {
           $(`#${"location" + index} areadata`).show();
           hide = false;
-        }else{
+        } else {
           $(`#${"location" + index} areadata`).hide();
           hide = true;
-        }        
-      })
+        }
+      });
     });
   } else {
+    var period = true;
+    $(".firstPeriod,.secondPeriod,.thirdPeriod").click(function () {
+      if (period == true) {
+        $(".period0,.period1,.period2").show();
+        period = false;
+      } else {
+        $(".period0,.period1,.period2").hide();
+        period = true;
+      }
+    });
     //Search function
     $("#locationSearch").keyup(function () {
       //Get input from user
       $("#location div").remove();
       let userValue = $("#locationSearch").val().toUpperCase();
       let userLen = userValue.length;
-      if (userLen != 0){
+      if (userLen != 0) {
         let indexResult = [];
-      //Search index of related areas
-      for (i = 0; i < area.length; i++) {
-        let areaname = area[i].name.slice(0, userLen).toUpperCase();
-        if (userValue == areaname) {
-          indexResult.push(i);
-        } else {
-          continue;
+        //Search index of related areas
+        for (i = 0; i < area.length; i++) {
+          let areaname = area[i].name.slice(0, userLen).toUpperCase();
+          if (userValue == areaname) {
+            indexResult.push(i);
+          } else {
+            continue;
+          }
+        }
+        //From index establish latitude and longitude of each respective location
+        for (i = 0; i < indexResult.length; i++) {
+          let index = indexResult[i];
+          let lat = area[index].label_location.latitude;
+          let long = area[index].label_location.longitude;
+          //Labeling location
+          let name = area[index].name;
+          $("#location").append(`<div id = "${"location" + i}"></div>`);
+          weatherLocation(name, i);
+          currentWeather(
+            lat,
+            long,
+            airTempRT,
+            weaFc2Hr,
+            relativeHumidityRT,
+            windSpeedRT,
+            i
+          );
         }
       }
-      //From index establish latitude and longitude of each respective location
-      for (i = 0; i < indexResult.length; i++) {
-        let index = indexResult[i];
-        let lat = area[index].label_location.latitude;
-        let long = area[index].label_location.longitude;
-        //Labeling location
-        let name = area[index].name;
-        $("#location").append(`<div id = "${"location" + i}"></div>`);
-        weatherLocation(name, i);
-        currentWeather(lat, long, airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT,i);
-        
-      }
-      }      
     });
   }
 });
+
 function displayIndexLocation(area) {
   for (i = 0; i < area.length; i++) {
     let option = `<option value="${i}">` + area[i].name + "</option>";
     $("#indexLocation").append(option);
   }
 }
-function loadCurrentWeather(area,airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT) {
+function loadCurrentWeather(
+  area,
+  airTempRT,
+  weaFc2Hr,
+  relativeHumidityRT,
+  windSpeedRT
+) {
   let hide = true;
   //just need to print once
   let lat = area[0].label_location.latitude;
@@ -179,17 +249,25 @@ function loadCurrentWeather(area,airTempRT,weaFc2Hr,relativeHumidityRT,windSpeed
   let name = area[0].name;
   $("#location").append(`<div id = "${"location" + 0}"></div>`);
   weatherLocation(name, 0);
-  currentWeather(lat, long, airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT,0);
+  currentWeather(
+    lat,
+    long,
+    airTempRT,
+    weaFc2Hr,
+    relativeHumidityRT,
+    windSpeedRT,
+    0
+  );
   $(`#${"location" + 0} areadata`).hide();
-  $(`#${"location" + 0}`).click(function(){
-    if (hide == true){
+  $(`#${"location" + 0}`).click(function () {
+    if (hide == true) {
       $(`#${"location" + 0} areadata`).show();
       hide = false;
-    }else{
+    } else {
       $(`#${"location" + 0} areadata`).hide();
       hide = true;
     }
-})
+  });
 }
 function weatherLocation(name, i) {
   let disp = "<h4>" + name + "</h4>";
@@ -200,34 +278,40 @@ function findReading(lat, long, info) {
   let stationInfo = info.metadata.stations;
   let index;
   let dist = 1000;
-  for(i=0; i<stationInfo.length;i++){
+  for (i = 0; i < stationInfo.length; i++) {
     let station = stationInfo[i];
     let stationLat = station.location.latitude;
     let stationLong = station.location.longitude;
-    let diff = closestDist(lat,long,stationLat,stationLong)
-    if (diff <= dist){
+    let diff = closestDist(lat, long, stationLat, stationLong);
+    if (diff <= dist) {
       index = i;
       dist = diff;
-    }
-    else{
+    } else {
       continue;
-    }    
+    }
   }
   let reading = info.items[0].readings[index].value;
   return reading;
 }
-function currentWeather(lat, long, airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT,i) {
-  let airTemp = findReading(lat,long,airTempRT);
+function currentWeather(
+  lat,
+  long,
+  airTempRT,
+  weaFc2Hr,
+  relativeHumidityRT,
+  windSpeedRT,
+  i
+) {
+  let airTemp = findReading(lat, long, airTempRT);
   let weatherForecast = weaFc2Hr[0].forecasts[i].forecast;
-  let relativeHumidity = findReading(lat,long,relativeHumidityRT);
-  let windSpeed = findReading(lat,long,windSpeedRT);
+  let relativeHumidity = findReading(lat, long, relativeHumidityRT);
+  let windSpeed = findReading(lat, long, windSpeedRT);
   $(`#${"location" + i} areadata`).append(`<div class = "row">
   <div class ="col-sm">Forecast : ${weatherForecast}</div>
   <div class ="col-sm">Temperature: ${airTemp}°C</div>
   <div class ="col-sm">Relative Humidity: ${relativeHumidity}%</div>
   <div class ="col-sm">Wind Speed : ${windSpeed}knots</div>
-  </div>`)
-
+  </div>`);
 }
 function load24Hour(weaFc24Hr) {
   let general = weaFc24Hr.items[0].general;
@@ -240,6 +324,8 @@ function load24Hour(weaFc24Hr) {
   //Weather (Wind Speed)
   $("#ws24High").text(general.wind.speed.high + " knots");
   $("#ws24Low").text(general.wind.speed.low + " knots");
+  //Weather Wind Direction
+  $("#wd24").text(general.wind.direction);
   // Weather(Sky)
   let firstPeriodRegion = weaFc24Hr.items[0].periods[0].regions;
   let secondPeriodRegion = weaFc24Hr.items[0].periods[1].regions;
@@ -306,6 +392,7 @@ function load24Hour(weaFc24Hr) {
   $("#east2").text(thirdPeriodRegion.east);
   $("#west2").text(thirdPeriodRegion.west);
   $("#central2").text(thirdPeriodRegion.central);
+  $(".period0,.period1,.period2").hide();
 }
 function extractPSI(psiData, a, label_x) {
   let north = [];
