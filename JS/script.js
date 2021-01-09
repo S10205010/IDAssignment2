@@ -559,12 +559,12 @@ const area_JSON = {"area_metadata": [
 var date = new Date();
 var month;
 var day;
-if (date.getMonth() < 9) {
+if (date.getMonth() <= 9) {
   month = "0" + (date.getMonth() + 1);
 } else {
   month = date.getMonth() + 1;
 }
-if (date.getDate() < 9) {
+if (date.getDate() <= 9) {
   day = "0" + date.getDate();
 } else {
   day = date.getDate();
@@ -618,25 +618,6 @@ $.ajax({
   } else {
     console.log("Failed to load Relative Humidity API! (API data error)");
     sessionStorage.setItem("relativeHumidity", JSON.stringify(failedAPI));
-  }
-});
-//API Wind Direction
-$.ajax({
-  type: "GET",
-  dataType: "json",
-  contentType: "text/plain",
-  url: "https://api.data.gov.sg/v1/environment/wind-direction",
-  data: { date_time: date_time, date: date_d },
-  error: function (status, request) {
-    console.log(`Wind Direction API ${request} ${status.status}`);
-    sessionStorage.setItem("WindDirection", JSON.stringify(failedAPI));
-  },
-}).done(function (data) {
-  if (data.items[0].timestamp != "") {
-    sessionStorage.setItem("WindDirection", JSON.stringify(data));
-  } else {
-    console.log("Failed to load Wind Direction API! (API data error)");
-    sessionStorage.setItem("WindDirection", JSON.stringify(failedAPI));
   }
 });
 //API Wind Speed
@@ -745,13 +726,13 @@ function lightDark(modeCondition){
     $("body").css({ color: "gray", "background-color": "black" });
     $("#LightDarkMode").css({ "background-color": "black" });
     $(".navbar-brand img").attr("src", "Images/CarpeDiemDark.png");
-    $("#locationSearch,#startTime select,#endTime select,#button,#eventDate,#scheduleLocation,#eventName").css({"background-color":"#444","border-color":"#999","color":"#aaa"})
+    $("#locationSearch,#indexLocation,#startTime select,#endTime select,#button,#eventDate,#scheduleLocation,#eventName").css({"background-color":"#444","border-color":"#999","color":"#aaa"})
   } else {
     $("header nav").removeClass("bg-dark navbar-dark");
     $("header nav").addClass("bg-light navbar-light");
     $("body").css({ color: "black", "background-color": "white" });
     $("#LightDarkMode").css({ "background-color": "white" });
     $(".navbar-brand img").attr("src", "Images/CarpeDiemLight.png");
-    $("#locationSearch,#startTime select,#endTime select,#button,#eventDate,#scheduleLocation,#eventName").css({"background-color":"#eee","border-color":"black","color":"black"})
+    $("#locationSearch,#indexLocation,#startTime select,#endTime select,#button,#eventDate,#scheduleLocation,#eventName").css({"background-color":"#eee","border-color":"black","color":"black"})
   }
 }

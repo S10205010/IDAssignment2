@@ -3,12 +3,12 @@
 var date = new Date();
 var month;
 var day;
-if (date.getMonth() < 9) {
+if (date.getMonth() <= 9) {
   month = "0" + (date.getMonth() + 1);
 } else {
   month = date.getMonth() + 1;
 }
-if (date.getDate() < 9) {
+if (date.getDate() <= 9) {
   day = "0" + date.getDate();
 } else {
   day = date.getDate();
@@ -22,7 +22,6 @@ var date_time =
   "T" +
   date.toLocaleTimeString();
 var date_d = date.getFullYear() + "-" + month + "-" + day;
-
 //API for PSI
 //Plans to get full day readings
 //chart as a function
@@ -77,7 +76,6 @@ $.ajax({
     sessionStorage.setItem("psiData", JSON.stringify(psiData));
   });
 });
-
 //ajaxStop is used so that all ajax is requests is completed before
 //execution
 $(document).ajaxStop(function () {
@@ -86,7 +84,6 @@ $(document).ajaxStop(function () {
   var relativeHumidityRT = JSON.parse(
     sessionStorage.getItem("relativeHumidity")
   );
-  var windDirectionRT = JSON.parse(sessionStorage.getItem("WindDirection"));
   var windSpeedRT = JSON.parse(sessionStorage.getItem("WindSpeed"));
 
   var weaFc2Hr = JSON.parse(sessionStorage.getItem("02HourFC"));
@@ -96,45 +93,220 @@ $(document).ajaxStop(function () {
   var psiData = JSON.parse(sessionStorage.getItem("psiData"));
   //Variable to be used by main program
   var area = area_JSON.area_metadata;
+  var hide = true;
   //Loading of website information
-  loadCurrentWeather(area);
+  loadCurrentWeather(area,airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT);
   load24Hour(weaFc24Hr);
   chartPSI(label, psiData);
   chart4Day(weaFc24Hr, weaFc4d);
   //light dark mode function
+  //To refresh the chart
   $(document).click(function () {
     chartPSI(label, psiData);
     chart4Day(weaFc24Hr, weaFc4d);
   });
-  //Search function
-  $("#locationSearch").keyup(function () {
-    //Get input from user
-    $("#location div").remove();
-    let userValue = $("#locationSearch").val().toUpperCase();
-    let userLen = userValue.length;
-    let indexResult = [];
-    //Search index of related areas
-    for (i = 0; i < area.length; i++) {
-      let areaname = area[i].name.slice(0, userLen).toUpperCase();
-      if (userValue == areaname) {
-        indexResult.push(i);
-      } else {
-        continue;
-      }
-    }
-    //From index establish latitude and longitude of each respective location
-    for (i = 0; i < indexResult.length; i++) {
-      let index = indexResult[i];
+  if ($(window).width() <= 768) {
+    $("main form div input").remove();
+    $("main form div").append("<select id ='indexLocation'></select");
+    displayIndexLocation(area);
+    $("#indexLocation").click(function () {
+      $("#location div").remove();
+      let index = $("select#indexLocation").val();
       let lat = area[index].label_location.latitude;
       let long = area[index].label_location.longitude;
       //Labeling location
       let name = area[index].name;
-      $("#location").append(`<div id = "${"location" + i}"></div>`);
-      currentWeather(name, i);
-    }
-  });
+      $("#location").append(`<div id = "${"location" + index}"></div>`);
+      weatherLocation(name, index);
+      currentWeather(lat, long, airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT,index);
+      $(`#${"location" + index} areadata`).hide();
+      $(`#${"location" + index}`).click(function(){
+        if (hide == true){
+          $(`#${"location" + index} areadata`).show();
+          hide = false;
+        }else{
+          $(`#${"location" + index} areadata`).hide();
+          hide = true;
+        }        
+      })
+    });
+  } else {
+    //Search function
+    $("#locationSearch").keyup(function () {
+      //Get input from user
+      $("#location div").remove();
+      let userValue = $("#locationSearch").val().toUpperCase();
+      let userLen = userValue.length;
+      if (userLen != 0){
+        let indexResult = [];
+      //Search index of related areas
+      for (i = 0; i < area.length; i++) {
+        let areaname = area[i].name.slice(0, userLen).toUpperCase();
+        if (userValue == areaname) {
+          indexResult.push(i);
+        } else {
+          continue;
+        }
+      }
+      //From index establish latitude and longitude of each respective location
+      for (i = 0; i < indexResult.length; i++) {
+        let index = indexResult[i];
+        let lat = area[index].label_location.latitude;
+        let long = area[index].label_location.longitude;
+        //Labeling location
+        let name = area[index].name;
+        $("#location").append(`<div id = "${"location" + i}"></div>`);
+        weatherLocation(name, i);
+        currentWeather(lat, long, airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT,i);
+        
+      }
+      }      
+    });
+  }
 });
+function displayIndexLocation(area) {
+  for (i = 0; i < area.length; i++) {
+    let option = `<option value="${i}">` + area[i].name + "</option>";
+    $("#indexLocation").append(option);
+  }
+}
+function loadCurrentWeather(area,airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT) {
+  let hide = true;
+  //just need to print once
+  let lat = area[0].label_location.latitude;
+  let long = area[0].label_location.longitude;
+  //Labeling location
+  let name = area[0].name;
+  $("#location").append(`<div id = "${"location" + 0}"></div>`);
+  weatherLocation(name, 0);
+  currentWeather(lat, long, airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT,0);
+  $(`#${"location" + 0} areadata`).hide();
+  $(`#${"location" + 0}`).click(function(){
+    if (hide == true){
+      $(`#${"location" + 0} areadata`).show();
+      hide = false;
+    }else{
+      $(`#${"location" + 0} areadata`).hide();
+      hide = true;
+    }
+})
+}
+function weatherLocation(name, i) {
+  let disp = "<h4>" + name + "</h4>";
+  $(`#location #${"location" + i}`).append(disp);
+  $(`#${"location" + i}`).append("<areadata></areadata>");
+}
+function findReading(lat, long, info) {
+  let stationInfo = info.metadata.stations;
+  let index;
+  let dist = 1000;
+  for(i=0; i<stationInfo.length;i++){
+    let station = stationInfo[i];
+    let stationLat = station.location.latitude;
+    let stationLong = station.location.longitude;
+    let diff = closestDist(lat,long,stationLat,stationLong)
+    if (diff <= dist){
+      index = i;
+      dist = diff;
+    }
+    else{
+      continue;
+    }    
+  }
+  let reading = info.items[0].readings[index].value;
+  return reading;
+}
+function currentWeather(lat, long, airTempRT,weaFc2Hr,relativeHumidityRT,windSpeedRT,i) {
+  let airTemp = findReading(lat,long,airTempRT);
+  let weatherForecast = weaFc2Hr[0].forecasts[i].forecast;
+  let relativeHumidity = findReading(lat,long,relativeHumidityRT);
+  let windSpeed = findReading(lat,long,windSpeedRT);
+  $(`#${"location" + i} areadata`).append(`<div class = "row">
+  <div class ="col-sm">Forecast : ${weatherForecast}</div>
+  <div class ="col-sm">Temperature: ${airTemp}°C</div>
+  <div class ="col-sm">Relative Humidity: ${relativeHumidity}%</div>
+  <div class ="col-sm">Wind Speed : ${windSpeed}knots</div>
+  </div>`)
 
+}
+function load24Hour(weaFc24Hr) {
+  let general = weaFc24Hr.items[0].general;
+  //Weather(Air Temp)
+  $("#t24High").text(general.temperature.high + " °C");
+  $("#t24Low").text(general.temperature.low + " °C");
+  // Weather (Relative Humidity)
+  $("#rh24High").text(general.relative_humidity.high + " %");
+  $("#rh24Low").text(general.relative_humidity.low + " %");
+  //Weather (Wind Speed)
+  $("#ws24High").text(general.wind.speed.high + " knots");
+  $("#ws24Low").text(general.wind.speed.low + " knots");
+  // Weather(Sky)
+  let firstPeriodRegion = weaFc24Hr.items[0].periods[0].regions;
+  let secondPeriodRegion = weaFc24Hr.items[0].periods[1].regions;
+  let thirdPeriodRegion = weaFc24Hr.items[0].periods[2].regions;
+
+  //First period
+  let firstStart =
+    "(" +
+    weaFc24Hr.items[0].periods[0].time.start.slice(0, 10) +
+    ") " +
+    weaFc24Hr.items[0].periods[0].time.start.slice(11, 19);
+  let firstEnd =
+    "(" +
+    weaFc24Hr.items[0].periods[0].time.end.slice(0, 10) +
+    ") " +
+    weaFc24Hr.items[0].periods[0].time.end.slice(11, 19);
+  $("#stime0").text(firstStart);
+  $("#etime0").text(firstEnd);
+  // Weather forecast for first period
+  $("#north0").text(firstPeriodRegion.north);
+  $("#south0").text(firstPeriodRegion.south);
+  $("#east0").text(firstPeriodRegion.east);
+  $("#west0").text(firstPeriodRegion.west);
+  $("#central0").text(firstPeriodRegion.central);
+
+  //Second period
+  let secondStart =
+    "(" +
+    weaFc24Hr.items[0].periods[1].time.start.slice(0, 10) +
+    ") " +
+    weaFc24Hr.items[0].periods[1].time.start.slice(11, 19);
+  let secondEnd =
+    "(" +
+    weaFc24Hr.items[0].periods[1].time.end.slice(0, 10) +
+    ") " +
+    weaFc24Hr.items[0].periods[1].time.end.slice(11, 19);
+  $("#stime1").text(secondStart);
+  $("#etime1").text(secondEnd);
+
+  // Weather forecast for second period
+  $("#north1").text(secondPeriodRegion.north);
+  $("#south1").text(secondPeriodRegion.south);
+  $("#east1").text(secondPeriodRegion.east);
+  $("#west1").text(secondPeriodRegion.west);
+  $("#central1").text(secondPeriodRegion.central);
+
+  //Third Period
+  let thirdStart =
+    "(" +
+    weaFc24Hr.items[0].periods[2].time.start.slice(0, 10) +
+    ") " +
+    weaFc24Hr.items[0].periods[2].time.start.slice(11, 19);
+  let thirdEnd =
+    "(" +
+    weaFc24Hr.items[0].periods[2].time.end.slice(0, 10) +
+    ") " +
+    weaFc24Hr.items[0].periods[2].time.end.slice(11, 19);
+  $("#stime2").text(thirdStart);
+  $("#etime2").text(thirdEnd);
+
+  // Weather forecast for first period
+  $("#north2").text(thirdPeriodRegion.north);
+  $("#south2").text(thirdPeriodRegion.south);
+  $("#east2").text(thirdPeriodRegion.east);
+  $("#west2").text(thirdPeriodRegion.west);
+  $("#central2").text(thirdPeriodRegion.central);
+}
 function extractPSI(psiData, a, label_x) {
   let north = [];
   let south = [];
@@ -278,93 +450,6 @@ function chartPSI(label_x, psiData) {
     });
   }
 }
-function loadCurrentWeather(area) {
-  //just need to print once
-  let lat = area[0].label_location.latitude;
-  let long = area[0].label_location.longitude;
-  //Labeling location
-  let name = area[0].name;
-  $("#location").append(`<div id = "${"location" + 0}"></div>`);
-  currentWeather(name, 0);
-}
-function load24Hour(weaFc24Hr) {
-  let general = weaFc24Hr.items[0].general;
-  //Weather(Air Temp)
-  $("#t24High").text(general.temperature.high + " °C");
-  $("#t24Low").text(general.temperature.low + " °C");
-  // Weather (Relative Humidity)
-  $("#rh24High").text(general.relative_humidity.high + " %");
-  $("#rh24Low").text(general.relative_humidity.low + " %");
-  //Weather (Wind Speed)
-  $("#ws24High").text(general.wind.speed.high + " knots");
-  $("#ws24Low").text(general.wind.speed.low + " knots");
-  // Weather(Sky)
-  let firstPeriodRegion = weaFc24Hr.items[0].periods[0].regions;
-  let secondPeriodRegion = weaFc24Hr.items[0].periods[1].regions;
-  let thirdPeriodRegion = weaFc24Hr.items[0].periods[2].regions;
-
-  //First period
-  let firstStart =
-    "(" +
-    weaFc24Hr.items[0].periods[0].time.start.slice(0, 10) +
-    ") " +
-    weaFc24Hr.items[0].periods[0].time.start.slice(11, 19);
-  let firstEnd =
-    "(" +
-    weaFc24Hr.items[0].periods[0].time.end.slice(0, 10) +
-    ") " +
-    weaFc24Hr.items[0].periods[0].time.end.slice(11, 19);
-  $("#stime0").text(firstStart);
-  $("#etime0").text(firstEnd);
-  // Weather forecast for first period
-  $("#north0").text(firstPeriodRegion.north);
-  $("#south0").text(firstPeriodRegion.south);
-  $("#east0").text(firstPeriodRegion.east);
-  $("#west0").text(firstPeriodRegion.west);
-  $("#central0").text(firstPeriodRegion.central);
-
-  //Second period
-  let secondStart =
-    "(" +
-    weaFc24Hr.items[0].periods[1].time.start.slice(0, 10) +
-    ") " +
-    weaFc24Hr.items[0].periods[1].time.start.slice(11, 19);
-  let secondEnd =
-    "(" +
-    weaFc24Hr.items[0].periods[1].time.end.slice(0, 10) +
-    ") " +
-    weaFc24Hr.items[0].periods[1].time.end.slice(11, 19);
-  $("#stime1").text(secondStart);
-  $("#etime1").text(secondEnd);
-
-  // Weather forecast for second period
-  $("#north1").text(secondPeriodRegion.north);
-  $("#south1").text(secondPeriodRegion.south);
-  $("#east1").text(secondPeriodRegion.east);
-  $("#west1").text(secondPeriodRegion.west);
-  $("#central1").text(secondPeriodRegion.central);
-
-  //Third Period
-  let thirdStart =
-    "(" +
-    weaFc24Hr.items[0].periods[2].time.start.slice(0, 10) +
-    ") " +
-    weaFc24Hr.items[0].periods[2].time.start.slice(11, 19);
-  let thirdEnd =
-    "(" +
-    weaFc24Hr.items[0].periods[2].time.end.slice(0, 10) +
-    ") " +
-    weaFc24Hr.items[0].periods[2].time.end.slice(11, 19);
-  $("#stime2").text(thirdStart);
-  $("#etime2").text(thirdEnd);
-
-  // Weather forecast for first period
-  $("#north2").text(thirdPeriodRegion.north);
-  $("#south2").text(thirdPeriodRegion.south);
-  $("#east2").text(thirdPeriodRegion.east);
-  $("#west2").text(thirdPeriodRegion.west);
-  $("#central2").text(thirdPeriodRegion.central);
-}
 function chart4Day(weaFc24Hr, weaFc4d) {
   let general = weaFc24Hr.items[0].general;
   let forecast = weaFc4d.items[0].forecasts;
@@ -489,7 +574,7 @@ function chart4Day(weaFc24Hr, weaFc4d) {
         },
       },
     });
-  }else{
+  } else {
     var d4Chart = new Chart(ttx, {
       type: "line",
       data: {
@@ -586,10 +671,6 @@ function chart4Day(weaFc24Hr, weaFc4d) {
   }
 }
 
-function currentWeather(name, i) {
-  let disp = "<h4>" + name + "</h4>";
-  $(`#location #${"location" + i}`).append(disp);
-}
 // Function to process location and output display
 // Pythagoras function to calculate distance.
 function closestDist(lat, long, lat1, long1) {
