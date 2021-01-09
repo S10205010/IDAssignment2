@@ -1,42 +1,69 @@
 /* Screen size 1140px and above */
-h1{
-    padding-left:42px;
+h1 {
+  padding-left: 42px;
 }
-h4{
-    text-align:left;
+h4 {
+  text-align: left;
 }
 #locationSearch {
-    border-style: none none solid none;
+  border-style: none none solid none;
 }
-.block .col-sm{
-    border: solid 1px;
-    border-radius:20px;
+.area{
+    font-size:larger;
 }
-.period0,.period1,.period2{
-    border-width:3px;
-    border-radius: 10px;
-    border-style: dashed ridge dashed ridge;
+.block .col-sm {
+  border: solid 1px;
+  border-radius: 20px;
+  box-shadow: 3px 6px grey;
+  margin: 3px;
 }
-.time div{
-    border-width: 1px;
-    border-style: none none solid none;
-    margin: 10px auto;
+.period0,
+.period1,
+.period2 {
+  border-width: 3px;
+  border-style: dashed none dashed none;
+  margin: 10px 0px;
 }
-.period0 div div,.period1 div div,.period2 div div{
-    text-align: right;
-    border-width: 1px;
-    border-style: none none solid none;
-    margin: 10px auto;
+.block .col-sm :hover {
+  background-color: #ddd;
+}
+.time div {
+  border-width: 1px;
+  border-style: none none solid none;
+  margin: 10px auto;
+  font-size: large;
+}
+.period0 div div,
+.period1 div div,
+.period2 div div {
+  text-align: right;
+  border-width: 1px;
+  border-style: none none solid none;
+  margin: 10px auto;
 }
 .col-sm div span {
-    float: right;
+  float: right;
 }
 /* Screen breakpoints 540px 720px 960px 1140px */
-@media only screen and (max-width: 1200x) {}
-@media only screen and (max-width: 992px) {}
-@media only screen and (max-width: 768px) {}
+@media only screen and (max-width: 1200x) {
+}
+@media only screen and (max-width: 992px) {
+}
+@media only screen and (max-width: 768px) {
+}
 @media only screen and (max-width: 576px) {
-    body{
-        font-size:10pt;
-    }
+  #location,.t24,.ws24,.wd24,.rh24{
+    border-style: dashed;
+    border-radius: 15px;
+    border-width: 1px;
+    box-shadow: 2px 6px grey;
+    margin: 10px;
+  }
+  .block .col-sm{
+      margin:10px;
+  }
+  body {
+    font-size: 10pt;
+  }
+  
 }

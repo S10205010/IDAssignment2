@@ -112,6 +112,54 @@ $(document).ajaxStop(function () {
     chart4Day(weaFc24Hr, weaFc4d);
   });
   if ($(window).width() <= 768) {
+    //These codes are to resize and conserve space when accessed
+    //on small devices
+    // Temp/RH/WS/WD portion
+    $(".t24 div").hide();
+    $(".rh24 div").hide();
+    $(".ws24 div").hide();
+    $(".wd24 div").hide();
+    let tempHidden = true;
+    let rHHidden = true;
+    let wSHidden = true;
+    let wDHidden = true;
+    $(".t24").click(function () {
+      if (tempHidden == true) {
+        $(".t24 div").show();
+        tempHidden = false;
+      } else {
+        $(".t24 div").hide();
+        tempHidden = true;
+      }
+    });
+    $(".rh24").click(function () {
+      if (rHHidden == true) {
+        $(".rh24 div").show();
+        rHHidden = false;
+      } else {
+        $(".rh24 div").hide();
+        rHHidden = true;
+      }
+    });
+    $(".ws24").click(function () {
+      if (wSHidden == true) {
+        $(".ws24 div").show();
+        wSHidden = false;
+      } else {
+        $(".ws24 div").hide();
+        wSHidden = true;
+      }
+    });
+    $(".wd24").click(function () {
+      if (wDHidden == true) {
+        $(".wd24 div").show();
+        wDHidden = false;
+      } else {
+        $(".wd24 div").hide();
+        wDHidden = true;
+      }
+    });
+    //Time intervals of the 24 hour portion
     var period0 = true;
     $(".firstPeriod").click(function () {
       if (period0 == true) {
@@ -142,8 +190,12 @@ $(document).ajaxStop(function () {
         period2 = true;
       }
     });
+    //Chart PSI portion (resizing)
+    $("#psi-container canvas").remove()
+    $("#psi-container").append(`<canvas id="PSIChart" height="400"></canvas>`)
+    chartPSI(label, psiData);
 
-
+    //
     $("main form div input").remove();
     $("main form div").append("<select id ='indexLocation'></select");
     displayIndexLocation(area);
@@ -187,13 +239,19 @@ $(document).ajaxStop(function () {
         period = true;
       }
     });
+    //Prevent default event from happening form input
+    $("form input").keydown(function(a){
+      if(a.keyCode == 13){
+        a.preventDefault();
+      }
+    })
     //Search function
     $("#locationSearch").keyup(function () {
-      //Get input from user
-      $("#location div").remove();
+      //Get input from user      
       let userValue = $("#locationSearch").val().toUpperCase();
       let userLen = userValue.length;
       if (userLen != 0) {
+        $("#location div").remove();
         let indexResult = [];
         //Search index of related areas
         for (i = 0; i < area.length; i++) {
@@ -211,7 +269,7 @@ $(document).ajaxStop(function () {
           let long = area[index].label_location.longitude;
           //Labeling location
           let name = area[index].name;
-          $("#location").append(`<div id = "${"location" + i}"></div>`);
+          $("#location").append(`<div class ="area" id = "${"location" + i}"></div>`);
           weatherLocation(name, i);
           currentWeather(
             lat,
@@ -247,7 +305,7 @@ function loadCurrentWeather(
   let long = area[0].label_location.longitude;
   //Labeling location
   let name = area[0].name;
-  $("#location").append(`<div id = "${"location" + 0}"></div>`);
+  $("#location").append(`<div class = "area" id = "${"location" + 0}"></div>`);
   weatherLocation(name, 0);
   currentWeather(
     lat,
@@ -258,6 +316,7 @@ function loadCurrentWeather(
     windSpeedRT,
     0
   );
+  if ($(window).width() <= 768) {
   $(`#${"location" + 0} areadata`).hide();
   $(`#${"location" + 0}`).click(function () {
     if (hide == true) {
@@ -267,11 +326,11 @@ function loadCurrentWeather(
       $(`#${"location" + 0} areadata`).hide();
       hide = true;
     }
-  });
+  });}
 }
 function weatherLocation(name, i) {
   let disp = "<h4>" + name + "</h4>";
-  $(`#location #${"location" + i}`).append(disp);
+  $(`#${"location" + i}`).append(disp);
   $(`#${"location" + i}`).append("<areadata></areadata>");
 }
 function findReading(lat, long, info) {
