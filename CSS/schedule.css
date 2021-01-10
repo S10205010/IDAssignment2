@@ -15,10 +15,7 @@ main form div div{
     float:right;
     margin-right:15%;
 }
-/* Screen breakpoints 540px 720px 960px 1140px */
-@media only screen and (max-width: 1200x) {}
-@media only screen and (max-width: 992px) {}
-@media only screen and (max-width: 768px) {}
+/* Screen breakpoints 540px*/
 @media only screen and (max-width: 576px) {
     form,section{
         border-width:2px;

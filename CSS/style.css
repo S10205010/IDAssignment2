@@ -1,5 +1,5 @@
 /* Global styling for all pages */
-h1,h2,h3,h4{
+h1,h2,h3,h4,h5{
     text-align: center;
 }
 /* Styling for the header */
@@ -24,8 +24,11 @@ body{
     color:black;
 }
 
-/* Screen breakpoints 540px 720px 960px 1140px */
-@media only screen and (max-width: 1140px) {}
-@media only screen and (max-width: 960px) {}
-@media only screen and (max-width: 720px) {}
-@media only screen and (max-width: 540px) {}
+@media only screen and (max-width: 576px) {
+    header button{
+        padding : 1px;
+    }
+    header button img{
+        max-width: 25px;
+    }
+}
