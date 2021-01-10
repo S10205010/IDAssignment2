@@ -64,9 +64,74 @@ function TaskObject(eventName, locationIndex,eventDate,startTime,endTime){
 }
 function processTask(){
 }
-function displayTasklist(){
+function displayTasklist(task,weaFc24Hr,forecast){
   $("#tasks div").remove();
-  $("#tasks").append("<div class='row'></div>");
+  for(i = 0; i<task.length; i ++){
+    let key = "task"+i;
+    let keyEvent = key+"event";
+    let keyForecast = key+"FC";
+    let currentTask = task[i];
+    let todayDate = date.getFullYear()+"-"+month+"-"+day;
+    //fill in tasksheet data
+    $("#tasks").append(`<div id="${key}"><h3>Event: ${currentTask.eventName} <span>(${currentTask.startTime}-${currentTask.endTime})</span></h3></div>`)
+    $("#"+key).append(`<div class = 'row'id ="${keyEvent}"></div>`)
+    $('#'+keyEvent).append(`
+    <div class = 'col-sm'>Location: ${area[currentTask.locationIndex].name}</div>
+    <div class = 'col-sm'>Date: ${currentTask.eventDate}</div>`)
+    
+    let predictedForecast;
+    let temperature;
+    let relativeHumidity;
+    let windSpeed;
+    $("#"+key).append(`<div class = 'row'id ="${keyForecast}"></div>`)
+    if(currentTask.eventDate> todayDate){
+      for(i=0;i<forecast.length;i++){
+        let currentForecast = forecast[i];
+        if(forecast[i].date==currentTask.date){
+          temperature = currentForecast.temperature.low+"°C" +" - "+currentForecast.temperature.high+"°C";
+          relativeHumidity = currentForecast.relative_humidity.low+"%"+" - "+currentForecast.relative_humidity.high+"%";
+          windSpeed = currentForecast.wind.speed.low+" knots"+" - "+currentForecast.wind.speed.high+" knots";
+          predictedForecast = currentForecast.forecast;
+        }
+      }
+    }else if(currentTask.eventDate=todayDate){
+      currentForecast = weaFc24Hr.items[0].general;
+      temperature = currentForecast.temperature.low+"°C" +" - "+currentForecast.temperature.high+"°C";
+      relativeHumidity = currentForecast.relative_humidity.low+"%"+" - "+currentForecast.relative_humidity.high+"%";
+      windSpeed = currentForecast.wind.speed.low+" knots"+" - "+currentForecast.wind.speed.high+" knots";
+      predictedForecast = currentForecast.forecast;      
+    }
+    $(`#${keyForecast}`).append(`
+  <div class ="col-sm">Forecast : <div>${predictedForecast}</div></div>
+  <div class ="col-sm">Temperature: <div>${temperature}</div></div>
+  <div class ="col-sm">Relative Humidity: <div>${relativeHumidity}</div></div>
+  <div class ="col-sm">Wind Speed : <div>${windSpeed}</div></div>`);
+  $(`#${key}`).append(`<button id="${key+"x"}">X</button>`);
+  $(`#${key} div, #${key+"x"}`).hide();
+  sessionStorage.setItem(key,JSON.stringify("true"));
+  $(`#${key}`).click(function(){
+    if(JSON.parse(sessionStorage.getItem(key))=="true"){
+      $(`#${key} div, #${key+"x"}`).show();
+      sessionStorage.setItem(key,JSON.stringify("false"));
+    }else{
+      $(`#${key} div, #${key+"x"}`).hide();
+      sessionStorage.setItem(key,JSON.stringify("true"));
+    }
+  })
+  
+  $(`#${key+"x"}`).css({"color":"red","border-radius":"25px","border-style":"none","background-color":"white"});
+  $(`#${keyForecast}`).css({"margin":"10px auto"});
+  $(`#${keyForecast} .col-sm`).css({"margin":"10px auto","border=width":"2px","border-style":"ridge",})
+  $(`#${key}`).css({"font-size":"large","border=width":"2px","border-style":"ridge",
+  "margin":"10px auto","border-radius":"15px", "box-shadow":"3px 6px grey"})
+  $(`#${key+"x"}`).click(function(){
+    let index = key.slice(4,key.length);
+    task.splice(index,1);
+    localStorage.setItem("task",JSON.stringify(task));
+    displayTasklist(task,weaFc24Hr,forecast);
+  })
+  } 
+ 
 }
 $(document).ajaxStop(function () {
   displayTimeOption();
@@ -74,7 +139,8 @@ $(document).ajaxStop(function () {
   var weaFc4d = JSON.parse(sessionStorage.getItem("4DayFC"));
   let forecast = weaFc4d.items[0].forecasts;
   displayDateOption(forecast);
-  
+  var weaFc24Hr = JSON.parse(sessionStorage.getItem("24HourFC"));
+
   if ($(window).width()<=576){
     $("form div").hide();
     let formHidden = true;
@@ -93,7 +159,18 @@ $(document).ajaxStop(function () {
     task = [];
   }else{
     task = JSON.parse(localStorage.getItem("task"));
+    let todayDate = date.getFullYear()+"-"+month+"-"+day;
+    for(i=0;i<task.length;i++){
+      let currentTask = task[i];
+      if(currentTask.date < todayDate){
+        task.splice(i,1)
+        localStorage.setItem("task",JSON.stringify(task));
+      }else{
+        continue;
+      }
+    }
   }
+  displayTasklist(task,weaFc24Hr,forecast)
   $("#button").click(function (event) {
     $(".error div").remove();
     event.preventDefault();
@@ -122,7 +199,8 @@ $(document).ajaxStop(function () {
       task.push(newTask);
       task.sort(sortTime);
       task.sort(sortDate);
-      localStorage.setItem("task",JSON.stringify(task))
+      localStorage.setItem("task",JSON.stringify(task));
+      displayTasklist(task,weaFc24Hr,forecast)
     }    
   });
 });

@@ -20,11 +20,14 @@ main form div div{
 @media only screen and (max-width: 992px) {}
 @media only screen and (max-width: 768px) {}
 @media only screen and (max-width: 576px) {
-    form{
+    form,section{
         border-width:2px;
         border-radius: 20px;
         border-style: ridge;
         box-shadow: 3px 6px grey;
         margin: 30px auto;
+    }
+    section div{
+        font-size:large;
     }
 }
