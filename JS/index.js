@@ -103,15 +103,55 @@ $(document).ajaxStop(function () {
     windSpeedRT
   );
   load24Hour(weaFc24Hr);
-
   chartPSI(label, psiData);
   chart4Day(weaFc24Hr, weaFc4d);
+  $("#d4Temp,#d4rh,#d4ws,#PSIChart").hide();
   //light dark mode function
   $("#LightDarkMode").click(function () {
     chartPSI(label, psiData);
     chart4Day(weaFc24Hr, weaFc4d);
   });
-  if ($(window).width() <= 768) {
+  var chart4dTempHidden = true;
+  var chart4dRHHidden = true;
+  var chart4dWSHidden = true;
+  var chartPSIHidden = true;
+  $("#psi-container").click(function(){
+    if(chartPSIHidden == true){
+      $("#PSIChart").show();
+      chartPSIHidden = false;
+    }else{
+      $("#PSIChart").hide();
+      chartPSIHidden = true;
+    }
+  })
+  $(".d4Temp").click(function(){
+    if(chart4dTempHidden == true){
+      $("#d4Temp").show();
+      chart4dTempHidden = false;
+    }else{
+      $("#d4Temp").hide();
+      chart4dTempHidden = true;
+    }
+  })
+  $(".d4rh").click(function(){
+    if(chart4dRHHidden == true){
+      $("#d4rh").show();
+      chart4dRHHidden = false;
+    }else{
+      $("#d4rh").hide();
+      chart4dRHHidden = true;
+    }
+  })
+  $(".d4ws").click(function(){
+    if(chart4dWSHidden == true){
+      $("#d4ws").show();
+      chart4dWSHidden = false;
+    }else{
+      $("#d4ws").hide();
+      chart4dWSHidden = true;
+    }
+  })
+  if ($(window).width() <= 576) {
     //These codes are to resize and conserve space when accessed
     //on small devices
     // Temp/RH/WS/WD portion
@@ -316,7 +356,7 @@ function loadCurrentWeather(
     windSpeedRT,
     0
   );
-  if ($(window).width() <= 768) {
+  if ($(window).width() <= 576) {
   $(`#${"location" + 0} areadata`).hide();
   $(`#${"location" + 0}`).click(function () {
     if (hide == true) {
@@ -623,9 +663,9 @@ function chart4Day(weaFc24Hr, weaFc4d) {
     wsLow.push(forecast[i].wind.speed.low);
   }
 
-  var ttx = $("#4dTemp");
-  var rtx = $("#4drh");
-  var wtx = $("#4dws");
+  var ttx = $("#d4Temp");
+  var rtx = $("#d4rh");
+  var wtx = $("#d4ws");
   if (localStorage.getItem("LightDarkMode") == "true") {
     var d4Chart = new Chart(ttx, {
       type: "line",
