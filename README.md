@@ -46,6 +46,8 @@ This website is able to be used on mobile phones.
   * jQuery is used in this project to make DOM manipulation easier.
 * [Bootstrap](https://getbootstrap.com/)
   * Bootstrap is used to simplify the creation of a responsive website
+* [Chart.js](https://www.chartjs.org/)
+  * Chart.js helps in creating charts on the websites
 * Adobe XD
 * Adobe Illustrator 2021
 * Validation
@@ -59,7 +61,15 @@ This website is able to be used on mobile phones.
 * [2-Hour-Weather-Forecast](https://data.gov.sg/dataset/weather-forecast?resource_id=571ef5fb-ed31-48b2-85c9-61677de42ca9)
 * [24-Hour=Weather-Forecast](https://data.gov.sg/dataset/weather-forecast?resource_id=9a8bd97e-0e38-46b7-bc39-9a2cb4a53a62)
 * [4-Day-Weather-Forecast](https://data.gov.sg/dataset/weather-forecast?resource_id=4df6d890-f23e-47f0-add1-fd6d580447d1)
-## Testing
+
+## Automated Test
+For HTML:
+* [W3C_Markup_Validation_Service](https://validator.w3.org/)
+For CSS:
+* [W3C_CSS_Validation_Service](https://jigsaw.w3.org/css-validator/)
+For best practices with JS:
+* [JSHint](https://jshint.com/)
+## Manual Testing
 ### Index.html
 #### Landing Page
 * See landing page with all charts hidden, and under 24 Hour Weather forecast section, there are only 3 timings. Details under timing are hidden.
@@ -104,4 +114,11 @@ This website is able to be used on mobile phones.
 From 2nd of January 2021 to 5th January 2021, there was internal server error relating to the above APIs used in this project. This result in error 500 or data that is requested returns with key and the values are empty objects. To not hinder the website process, I decided to hardcode the JSON file response to deal with this issue. In a case of error or a case where the data needed from the API is unable to be process, the java script will process the hardcoded JSON file instead.
 
 ## Credits
-To be added in
+* For APIs used in the project are from data.gov.sg
+* For [Technology](https://github.com/S10205010/IDAssignment2#technologies-used) used are all in Technology Section
+To better use Javascript, CSS, HTML:
+* [w3schools](https://www.w3schools.com/)
+* [MDN Web Docs](https://developer.mozilla.org/en-US/)
+* [jQuery](https://jquery.com/)
+Others
+* stackoverflow
