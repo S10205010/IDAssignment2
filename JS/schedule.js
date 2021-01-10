@@ -76,11 +76,11 @@ function TaskObject(eventName, locationIndex, eventDate, startTime, endTime) {
 //information from 4 day weather forcast api
 function displayTasklist(task, weaFc24Hr, forecast) {
   $("#tasks div").remove();
-  for (i = 0; i < task.length; i++) {
-    let key = "task" + i;
+  for (a = 0; a < task.length; a++) {
+    let key = "task" + a;
     let keyEvent = key + "event";
     let keyForecast = key + "FC";
-    let currentTask = task[i];
+    let currentTask = task[a];
     let todayDate = date.getFullYear() + "-" + month + "-" + day;
     //fill in tasksheet data
     $("#tasks").append(
@@ -101,31 +101,33 @@ function displayTasklist(task, weaFc24Hr, forecast) {
     let windSpeed;
     $("#" + key).append(`<div class = 'row'id ="${keyForecast}"></div>`);
     if (currentTask.eventDate > todayDate) {
-      for (i = 0; i < forecast.length; i++) {
-        let currentForecast = forecast[i];
+      let index;
+      for (i = 0; i < forecast.length; ++i) {
         if (forecast[i].date == currentTask.eventDate) {
-          temperature =
-            currentForecast.temperature.low +
-            "°C" +
-            " - " +
-            currentForecast.temperature.high +
-            "°C";
-          relativeHumidity =
-            currentForecast.relative_humidity.low +
-            "%" +
-            " - " +
-            currentForecast.relative_humidity.high +
-            "%";
-          windSpeed =
-            currentForecast.wind.speed.low +
-            " knots" +
-            " - " +
-            currentForecast.wind.speed.high +
-            " knots";
-          predictedForecast = currentForecast.forecast;
+          index = i;
         }
       }
-    } else if (currentTask.eventDate == todayDate) {
+      let currentForecast = forecast[index];
+      temperature =
+        currentForecast.temperature.low +
+        "°C" +
+        " - " +
+        currentForecast.temperature.high +
+        "°C";
+      relativeHumidity =
+        currentForecast.relative_humidity.low +
+        "%" +
+        " - " +
+        currentForecast.relative_humidity.high +
+        "%";
+      windSpeed =
+        currentForecast.wind.speed.low +
+        " knots" +
+        " - " +
+        currentForecast.wind.speed.high +
+        " knots";
+      predictedForecast = currentForecast.forecast;
+    } else {
       currentForecast = weaFc24Hr.items[0].general;
       temperature =
         currentForecast.temperature.low +
@@ -152,11 +154,19 @@ function displayTasklist(task, weaFc24Hr, forecast) {
   <div class ="col-sm">Temperature: <div>${temperature}</div></div>
   <div class ="col-sm">Relative Humidity: <div>${relativeHumidity}</div></div>
   <div class ="col-sm">Wind Speed : <div>${windSpeed}</div></div>`);
-    //Added an X so that user can clear event if completed
+
     $(`#${key}`).append(`<button id="${key + "x"}">X</button>`);
     $(`#${key} div, #${key + "x"}`).hide();
     sessionStorage.setItem(key, JSON.stringify("true"));
-
+    $(`#${key}`).click(function () {
+      if (JSON.parse(sessionStorage.getItem(key)) == "true") {
+        $(`#${key} div, #${key + "x"}`).show();
+        sessionStorage.setItem(key, JSON.stringify("false"));
+      } else {
+        $(`#${key} div, #${key + "x"}`).hide();
+        sessionStorage.setItem(key, JSON.stringify("true"));
+      }
+    });
     //CSS styling for the newly created elements
     $(`#${key + "x"}`).css({
       color: "red",
@@ -178,25 +188,14 @@ function displayTasklist(task, weaFc24Hr, forecast) {
       "border-radius": "15px",
       "box-shadow": "3px 6px grey",
     });
-    toggle(key, i);
+    //Added an X so that user can clear event if completed
+    $(`#${key + "x"}`).click(function () {
+      let index = key.slice(4, key.length);
+      task.splice(index, 1);
+      localStorage.setItem("task", JSON.stringify(task));
+      displayTasklist(task, weaFc24Hr, forecast);
+    });
   }
-}
-function toggle(key, i) {
-  $(`#${key}`).click(function () {
-    if (JSON.parse(sessionStorage.getItem(key)) == "true") {
-      $(`#${key} div, #${key + "x"}`).show();
-      sessionStorage.setItem(key, JSON.stringify("false"));
-    } else {
-      $(`#${key} div, #${key + "x"}`).hide();
-      sessionStorage.setItem(key, JSON.stringify("true"));
-    }
-  });
-  $(`#${key + "x"}`).click(function () {
-    let index = key.slice(4, key.length);
-    task.splice(index, 1);
-    localStorage.setItem("task", JSON.stringify(task));
-    displayTasklist(task, weaFc24Hr, forecast);
-  });
 }
 
 $(document).ajaxStop(function () {
@@ -221,6 +220,7 @@ $(document).ajaxStop(function () {
       }
     });
   }
+
   //This portion extract data from local storage
   let task;
   if (JSON.parse(localStorage.getItem("task")) == null) {
@@ -238,6 +238,7 @@ $(document).ajaxStop(function () {
       }
     }
   }
+
   //Once task array is loaded it will display all the events
   //saved by user
   displayTasklist(task, weaFc24Hr, forecast);
