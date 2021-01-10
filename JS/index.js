@@ -118,42 +118,42 @@ $(document).ajaxStop(function () {
   var chart4dRHHidden = true;
   var chart4dWSHidden = true;
   var chartPSIHidden = true;
-  $("#psi-container").click(function(){
-    if(chartPSIHidden == true){
+  $("#psi-container").click(function () {
+    if (chartPSIHidden == true) {
       $("#PSIChart").show();
       chartPSIHidden = false;
-    }else{
+    } else {
       $("#PSIChart").hide();
       chartPSIHidden = true;
     }
-  })
-  $(".d4Temp").click(function(){
-    if(chart4dTempHidden == true){
+  });
+  $(".d4Temp").click(function () {
+    if (chart4dTempHidden == true) {
       $("#d4Temp").show();
       chart4dTempHidden = false;
-    }else{
+    } else {
       $("#d4Temp").hide();
       chart4dTempHidden = true;
     }
-  })
-  $(".d4rh").click(function(){
-    if(chart4dRHHidden == true){
+  });
+  $(".d4rh").click(function () {
+    if (chart4dRHHidden == true) {
       $("#d4rh").show();
       chart4dRHHidden = false;
-    }else{
+    } else {
       $("#d4rh").hide();
       chart4dRHHidden = true;
     }
-  })
-  $(".d4ws").click(function(){
-    if(chart4dWSHidden == true){
+  });
+  $(".d4ws").click(function () {
+    if (chart4dWSHidden == true) {
       $("#d4ws").show();
       chart4dWSHidden = false;
-    }else{
+    } else {
       $("#d4ws").hide();
       chart4dWSHidden = true;
     }
-  })
+  });
   //Depending on screen size it will load differently
   if ($(window).width() <= 576) {
     //These codes are to resize and conserve space when accessed
@@ -236,8 +236,8 @@ $(document).ajaxStop(function () {
       }
     });
     //Chart PSI portion (resizing)
-    $("#psi-container canvas").remove()
-    $("#psi-container").append(`<canvas id="PSIChart" height="400"></canvas>`)
+    $("#psi-container canvas").remove();
+    $("#psi-container").append(`<canvas id="PSIChart" height="400"></canvas>`);
     chartPSI(label, psiData);
     //Change search to select option
     $("main form div input").remove();
@@ -247,7 +247,7 @@ $(document).ajaxStop(function () {
     $("#indexLocation").click(function () {
       $("#location div").remove();
       let index = $("select#indexLocation").val();
-      //Get the latitude and longitude of the location and find closest 
+      //Get the latitude and longitude of the location and find closest
       //weather reading station
       let lat = area[index].label_location.latitude;
       let long = area[index].label_location.longitude;
@@ -293,14 +293,14 @@ $(document).ajaxStop(function () {
 
     //Prevent default event from happening form input
     //Prevent event occuring when enter is pressed
-    $("form input").keydown(function(a){
-      if(a.keyCode == 13){
+    $("form input").keydown(function (a) {
+      if (a.keyCode == 13) {
         a.preventDefault();
       }
-    })
+    });
     //Search function(or at least close to a search)
     $("#locationSearch").keyup(function () {
-      //Get input from user      
+      //Get input from user
       let userValue = $("#locationSearch").val().toUpperCase();
       let userLen = userValue.length;
       if (userLen != 0) {
@@ -322,7 +322,9 @@ $(document).ajaxStop(function () {
           let long = area[index].label_location.longitude;
           //Labeling location
           let name = area[index].name;
-          $("#location").append(`<div class ="area" id = "${"location" + i}"></div>`);
+          $("#location").append(
+            `<div class ="area" id = "${"location" + i}"></div>`
+          );
           weatherLocation(name, i);
           currentWeather(
             lat,
@@ -334,7 +336,7 @@ $(document).ajaxStop(function () {
             i
           );
         }
-      }else{
+      } else {
       }
     });
   }
@@ -374,16 +376,17 @@ function loadCurrentWeather(
   );
   //Function to enable click to expand
   if ($(window).width() <= 576) {
-  $(`#${"location" + 0} areadata`).hide();
-  $(`#${"location" + 0}`).click(function () {
-    if (hide == true) {
-      $(`#${"location" + 0} areadata`).show();
-      hide = false;
-    } else {
-      $(`#${"location" + 0} areadata`).hide();
-      hide = true;
-    }
-  });}
+    $(`#${"location" + 0} areadata`).hide();
+    $(`#${"location" + 0}`).click(function () {
+      if (hide == true) {
+        $(`#${"location" + 0} areadata`).show();
+        hide = false;
+      } else {
+        $(`#${"location" + 0} areadata`).hide();
+        hide = true;
+      }
+    });
+  }
 }
 //This function display the location on the webpage and allow
 //currentWeather function to insert necessary weather details
@@ -517,7 +520,7 @@ function load24Hour(weaFc24Hr) {
   $("#central2").text(thirdPeriodRegion.central);
   $(".period0,.period1,.period2").hide();
 }
-//ExtractPSI is a function to separate the readings into respective 
+//ExtractPSI is a function to separate the readings into respective
 //regions
 function extractPSI(psiData, a, label_x) {
   let north = [];
@@ -614,7 +617,7 @@ function chartPSI(label_x, psiData) {
       },
     });
   } else {
-    var myChart = new Chart(ctx, {
+    myChart = new Chart(ctx, {
       type: "line",
       data: {
         labels: label,
@@ -793,7 +796,7 @@ function chart4Day(weaFc24Hr, weaFc4d) {
       },
     });
   } else {
-    var d4Chart = new Chart(ttx, {
+    d4Chart = new Chart(ttx, {
       type: "line",
       data: {
         labels: label,
@@ -824,7 +827,7 @@ function chart4Day(weaFc24Hr, weaFc4d) {
         },
       },
     });
-    var r4Chart = new Chart(rtx, {
+    r4Chart = new Chart(rtx, {
       type: "line",
       data: {
         labels: label,
@@ -855,7 +858,7 @@ function chart4Day(weaFc24Hr, weaFc4d) {
         },
       },
     });
-    var w4Chart = new Chart(wtx, {
+    w4Chart = new Chart(wtx, {
       type: "line",
       data: {
         labels: label,
