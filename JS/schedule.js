@@ -73,11 +73,11 @@ function displayTasklist(task,weaFc24Hr,forecast){
     let currentTask = task[i];
     let todayDate = date.getFullYear()+"-"+month+"-"+day;
     //fill in tasksheet data
-    $("#tasks").append(`<div id="${key}"><h3>Event: ${currentTask.eventName} <span>(${currentTask.startTime}-${currentTask.endTime})</span></h3></div>`)
+    $("#tasks").append(`<div id="${key}"><h3>Event: ${currentTask.eventName} <span>(${currentTask.eventDate})</span></h3></div>`)
     $("#"+key).append(`<div class = 'row'id ="${keyEvent}"></div>`)
     $('#'+keyEvent).append(`
     <div class = 'col-sm'>Location: ${area[currentTask.locationIndex].name}</div>
-    <div class = 'col-sm'>Date: ${currentTask.eventDate}</div>`)
+    <div class = 'col-sm'>Time: (${currentTask.startTime}-${currentTask.endTime})</div>`)
     
     let predictedForecast;
     let temperature;
@@ -87,7 +87,8 @@ function displayTasklist(task,weaFc24Hr,forecast){
     if(currentTask.eventDate> todayDate){
       for(i=0;i<forecast.length;i++){
         let currentForecast = forecast[i];
-        if(forecast[i].date==currentTask.date){
+        if(forecast[i].date==currentTask.eventDate){
+          
           temperature = currentForecast.temperature.low+"°C" +" - "+currentForecast.temperature.high+"°C";
           relativeHumidity = currentForecast.relative_humidity.low+"%"+" - "+currentForecast.relative_humidity.high+"%";
           windSpeed = currentForecast.wind.speed.low+" knots"+" - "+currentForecast.wind.speed.high+" knots";
@@ -105,7 +106,8 @@ function displayTasklist(task,weaFc24Hr,forecast){
   <div class ="col-sm">Forecast : <div>${predictedForecast}</div></div>
   <div class ="col-sm">Temperature: <div>${temperature}</div></div>
   <div class ="col-sm">Relative Humidity: <div>${relativeHumidity}</div></div>
-  <div class ="col-sm">Wind Speed : <div>${windSpeed}</div></div>`);
+  <div class ="col-sm">Wind Speed : <div>${windSpeed}</div></div>`
+  );
   $(`#${key}`).append(`<button id="${key+"x"}">X</button>`);
   $(`#${key} div, #${key+"x"}`).hide();
   sessionStorage.setItem(key,JSON.stringify("true"));
@@ -118,7 +120,7 @@ function displayTasklist(task,weaFc24Hr,forecast){
       sessionStorage.setItem(key,JSON.stringify("true"));
     }
   })
-  
+  //CSS styling for the newly created elements
   $(`#${key+"x"}`).css({"color":"red","border-radius":"25px","border-style":"none","background-color":"white"});
   $(`#${keyForecast}`).css({"margin":"10px auto"});
   $(`#${keyForecast} .col-sm`).css({"margin":"10px auto","border=width":"2px","border-style":"ridge",})
@@ -144,7 +146,7 @@ $(document).ajaxStop(function () {
   if ($(window).width()<=576){
     $("form div").hide();
     let formHidden = true;
-  $("form").click(function(){
+  $("form h2").click(function(){
     if (formHidden == true){
       $("form div").show();
       formHidden = false;
