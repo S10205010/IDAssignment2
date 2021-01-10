@@ -25,7 +25,7 @@ h4 {
   margin: 10px 0px;
 }
 .block .col-sm :hover {
-  background-color: #ddd;
+  background-color: #eee;
 }
 .time div {
   border-width: 1px;
@@ -65,5 +65,7 @@ h4 {
   body {
     font-size: 10pt;
   }
+  .block .col-sm :hover {
+      background-color: none;}
   
 }
