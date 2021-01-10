@@ -1,30 +1,45 @@
-main form div div{
-    margin: 10px auto;
+main form div div {
+  margin: 10px auto;
 }
-#eventName{
-    border-style: none none solid none;
-    float:right;
-    margin-right:15%;
+#eventName {
+  border-style: none none solid none;
+  float: right;
+  margin-right: 15%;
 }
-#startTime,#endTime{
-    float:right;
-    margin-right: 15%;
+#startTime,
+#endTime {
+  float: right;
+  margin-right: 15%;
 }
-#eventDate,#scheduleLocation,#button{
-    border-style: none none none none;
-    float:right;
-    margin-right:15%;
+#eventDate,
+#scheduleLocation,
+#button {
+  border-style: none none none none;
+  float: right;
+  margin-right: 15%;
 }
 /* Screen breakpoints 540px*/
 @media only screen and (max-width: 576px) {
-    form,section{
-        border-width:2px;
-        border-radius: 20px;
-        border-style: ridge;
-        box-shadow: 3px 6px grey;
-        margin: 30px auto;
-    }
-    section div{
-        font-size:large;
-    }
+  form,
+  section {
+    border-width: 2px;
+    border-radius: 20px;
+    border-style: ridge;
+    box-shadow: 3px 6px grey;
+    margin: 30px auto;
+  }
+  section div {
+    font-size: large;
+  }
+  body {
+    font-size: medium;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: larger;
+  }
 }
