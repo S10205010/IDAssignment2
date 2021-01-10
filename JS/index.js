@@ -43,6 +43,7 @@ $.ajax({
     console.log(`PSI API ${request} ${status.status}`);
   },
 }).done(function (data) {
+  //Previous Day Readings
   let psiData = [];
   let hour = date.getHours() - 1;
   let label = [];
@@ -66,6 +67,7 @@ $.ajax({
       console.log(`PSI API ${request} ${status.status}`);
     },
   }).done(function (data) {
+    //Current Day Readings
     for (i = 0; i < data.items.length; i++) {
       let timeStamp = data.items[i].timestamp.slice(11, 19);
       label.push(timeStamp);
@@ -111,6 +113,7 @@ $(document).ajaxStop(function () {
     chartPSI(label, psiData);
     chart4Day(weaFc24Hr, weaFc4d);
   });
+  //This portion allows the chart to toggle between seen and hidden
   var chart4dTempHidden = true;
   var chart4dRHHidden = true;
   var chart4dWSHidden = true;
@@ -151,10 +154,11 @@ $(document).ajaxStop(function () {
       chart4dWSHidden = true;
     }
   })
+  //Depending on screen size it will load differently
   if ($(window).width() <= 576) {
     //These codes are to resize and conserve space when accessed
     //on small devices
-    // Temp/RH/WS/WD portion
+    //24Hour Temp/RH/WS/WD portion
     $(".t24 div").hide();
     $(".rh24 div").hide();
     $(".ws24 div").hide();
@@ -199,6 +203,7 @@ $(document).ajaxStop(function () {
         wDHidden = true;
       }
     });
+
     //Time intervals of the 24 hour portion
     var period0 = true;
     $(".firstPeriod").click(function () {
@@ -234,14 +239,16 @@ $(document).ajaxStop(function () {
     $("#psi-container canvas").remove()
     $("#psi-container").append(`<canvas id="PSIChart" height="400"></canvas>`)
     chartPSI(label, psiData);
-
-    //
+    //Change search to select option
     $("main form div input").remove();
     $("main form div").append("<select id ='indexLocation'></select");
     displayIndexLocation(area);
+    //Below is after user click on an area, the following codes will process the data
     $("#indexLocation").click(function () {
       $("#location div").remove();
       let index = $("select#indexLocation").val();
+      //Get the latitude and longitude of the location and find closest 
+      //weather reading station
       let lat = area[index].label_location.latitude;
       let long = area[index].label_location.longitude;
       //Labeling location
@@ -257,6 +264,7 @@ $(document).ajaxStop(function () {
         windSpeedRT,
         index
       );
+      //Codes below allow this portion to toggle to expand
       $(`#${"location" + index} areadata`).hide();
       $(`#${"location" + index}`).click(function () {
         if (hide == true) {
@@ -269,6 +277,9 @@ $(document).ajaxStop(function () {
       });
     });
   } else {
+    //Code below is for 576px< screen size
+
+    //This portion is to enable toggle to expand function
     var period = true;
     $(".firstPeriod,.secondPeriod,.thirdPeriod").click(function () {
       if (period == true) {
@@ -279,13 +290,15 @@ $(document).ajaxStop(function () {
         period = true;
       }
     });
+
     //Prevent default event from happening form input
+    //Prevent event occuring when enter is pressed
     $("form input").keydown(function(a){
       if(a.keyCode == 13){
         a.preventDefault();
       }
     })
-    //Search function
+    //Search function(or at least close to a search)
     $("#locationSearch").keyup(function () {
       //Get input from user      
       let userValue = $("#locationSearch").val().toUpperCase();
@@ -321,17 +334,20 @@ $(document).ajaxStop(function () {
             i
           );
         }
+      }else{
       }
     });
   }
 });
 
+//This function insert Location option when called upon
 function displayIndexLocation(area) {
   for (i = 0; i < area.length; i++) {
     let option = `<option value="${i}">` + area[i].name + "</option>";
     $("#indexLocation").append(option);
   }
 }
+//This function just load the first location into the webpage with respective data
 function loadCurrentWeather(
   area,
   airTempRT,
@@ -356,6 +372,7 @@ function loadCurrentWeather(
     windSpeedRT,
     0
   );
+  //Function to enable click to expand
   if ($(window).width() <= 576) {
   $(`#${"location" + 0} areadata`).hide();
   $(`#${"location" + 0}`).click(function () {
@@ -368,11 +385,15 @@ function loadCurrentWeather(
     }
   });}
 }
+//This function display the location on the webpage and allow
+//currentWeather function to insert necessary weather details
 function weatherLocation(name, i) {
   let disp = "<h4>" + name + "</h4>";
   $(`#${"location" + i}`).append(disp);
   $(`#${"location" + i}`).append("<areadata></areadata>");
 }
+//Find reading function is a function that search nearest weather station data
+// and get the reading from that station.
 function findReading(lat, long, info) {
   let stationInfo = info.metadata.stations;
   let index;
@@ -392,6 +413,7 @@ function findReading(lat, long, info) {
   let reading = info.items[0].readings[index].value;
   return reading;
 }
+//Current Weather function extract and display all the data saved in session storage
 function currentWeather(
   lat,
   long,
@@ -412,6 +434,8 @@ function currentWeather(
   <div class ="col-sm">Wind Speed : ${windSpeed}knots</div>
   </div>`);
 }
+//This function filter true data retrieved from 24hour weather forecast
+//It then append respective data into the respective slots.
 function load24Hour(weaFc24Hr) {
   let general = weaFc24Hr.items[0].general;
   //Weather(Air Temp)
@@ -493,6 +517,8 @@ function load24Hour(weaFc24Hr) {
   $("#central2").text(thirdPeriodRegion.central);
   $(".period0,.period1,.period2").hide();
 }
+//ExtractPSI is a function to separate the readings into respective 
+//regions
 function extractPSI(psiData, a, label_x) {
   let north = [];
   let south = [];
@@ -511,6 +537,8 @@ function extractPSI(psiData, a, label_x) {
   let result = [north, south, east, west, central, label];
   return result;
 }
+//Chart PSI gathers information extracted from extract PSI and with
+// the use of chart.js it can formulate PSI chart
 function chartPSI(label_x, psiData) {
   let a = 0;
   let viewLen = $(window).width();
@@ -529,6 +557,7 @@ function chartPSI(label_x, psiData) {
   let central = result[4];
   let label = result[5];
   var ctx = $("#PSIChart");
+  //This section determines the brightness of the color of the lines
   if (localStorage.getItem("LightDarkMode") == "true") {
     var myChart = new Chart(ctx, {
       type: "line",
@@ -593,32 +622,32 @@ function chartPSI(label_x, psiData) {
           {
             label: "North",
             data: north,
-            backgroundColor: ["rgba(100,0,0,0.2)"],
-            borderColor: ["rgba(100,0,0,1)"],
+            backgroundColor: ["rgba(150,0,0,0.2)"],
+            borderColor: ["rgba(150,0,0,1)"],
           },
           {
             label: "South",
             data: south,
-            backgroundColor: ["rgba(100,100,0,0.2)"],
-            borderColor: ["rgba(100,100,0,1)"],
+            backgroundColor: ["rgba(150,150,0,0.2)"],
+            borderColor: ["rgba(150,150,0,1)"],
           },
           {
             label: "East",
             data: east,
-            backgroundColor: ["rgba(0,0,100,0.2)"],
-            borderColor: ["rgba(0,0,100,1)"],
+            backgroundColor: ["rgba(0,0,150,0.2)"],
+            borderColor: ["rgba(0,0,150,1)"],
           },
           {
             label: "West",
             data: west,
-            backgroundColor: ["rgba(100,0,100,0.2)"],
-            borderColor: ["rgba(100,0,100,1)"],
+            backgroundColor: ["rgba(150,0,150,0.2)"],
+            borderColor: ["rgba(150,0,150,1)"],
           },
           {
             label: "Central",
             data: central,
-            backgroundColor: ["rgba(0,100,100,0.2)"],
-            borderColor: ["rgba(0,100,100,1)"],
+            backgroundColor: ["rgba(0,150,150,0.2)"],
+            borderColor: ["rgba(0,150,150,1)"],
           },
         ],
       },
@@ -636,6 +665,9 @@ function chartPSI(label_x, psiData) {
     });
   }
 }
+//Chart4day is a function where it gets the weather readings from current day
+// and next 4 days from the 24Hour forecast and 4 day forecast api
+//Using chart.js, it generates the chart
 function chart4Day(weaFc24Hr, weaFc4d) {
   let general = weaFc24Hr.items[0].general;
   let forecast = weaFc4d.items[0].forecasts;
