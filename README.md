@@ -52,7 +52,7 @@ This website is able to be used on mobile phones.
   * [W3C_Markup_Validation_Service](https://validator.w3.org/)
   * [W3C_CSS_Validation_Service](https://jigsaw.w3.org/css-validator/)
   * [JSHint](https://jshint.com/)
-### APIs
+### APIs (Data.gov.sg)
 * [Air_Temperature](https://data.gov.sg/dataset/realtime-weather-readings?resource_id=17494bed-23e9-4b3b-ae89-232f87987163)
 * [Relative_Humidity](https://data.gov.sg/dataset/realtime-weather-readings?resource_id=17494bed-23e9-4b3b-ae89-232f87987163)
 * [Wind_Speed](https://data.gov.sg/dataset/realtime-weather-readings?resource_id=16035f22-37b4-4a5c-b024-ca2381f11b48)
@@ -60,6 +60,44 @@ This website is able to be used on mobile phones.
 * [24-Hour=Weather-Forecast](https://data.gov.sg/dataset/weather-forecast?resource_id=9a8bd97e-0e38-46b7-bc39-9a2cb4a53a62)
 * [4-Day-Weather-Forecast](https://data.gov.sg/dataset/weather-forecast?resource_id=4df6d890-f23e-47f0-add1-fd6d580447d1)
 ## Testing
+### Index.html
+#### Landing Page
+* See landing page with all charts hidden, and under 24 Hour Weather forecast section, there are only 3 timings. Details under timing are hidden.
+* Pass
+#### Click to expand hidden items
+* Upon clicking, respective hidden items should appear. The 3 timings under 24 hour weather forecast will appear at the same time if any of it are click when screen width > 576px
+* Pass
+#### Search Feature (Screen Width>576px)
+* When typing respective location, location that is within the 47 areas and matches the sequence of character typed will appear under Current Weather.
+* Pass
+#### Select Feature (Screen Width <= 576px)
+* Select Feature should have all 47 options inside. Upon clicking the location selected will show under current weather with respective weather.
+* Pass
+### Schedule.html
+#### Screen Width(>576px)
+##### Landing Page
+* Landing page should be loaded up with all input loaded. Form should not be hidden.
+* Pass
+#### Screen WIdth(<576px)
+##### Landing Page
+* Landing page, form should be hidden and can be expanded when schedule is press.
+* Pass
+#### Event List
+* Event List should be empty if there is no local storage regarding stored events.
+* Pass
+
+* Event List should not be empty if there are events stored in local storage
+* Pass
+
+* Event details are hidden when created. Details of the weather are shown when event is click.
+* Pass
+#### Filling in the Form
+##### Event Name
+* Event name must not be empty. If event name is empty, below the form will append "error"
+* Pass
+##### Event Time
+* Event end time must be later than event start time. If event end time is ealier than or equal to start time, below the form will append error
+* Pass
 
 ### Issues faced
 #### APIs Error 500/ response received but required data missing
