@@ -3,12 +3,15 @@ var date = new Date();
 var month = ("0" + (date.getMonth() + 1)).slice(-2);
 var day = ("0" + date.getDate()).slice(-2);
 var area = area_JSON.area_metadata;
+//Display Event Location add Location options into the select portion
+//in the form section
 function displayEventLocation(area) {
   for (i = 0; i < area.length; i++) {
     let option = `<option value="${i}">` + area[i].name + "</option>";
     $("#scheduleLocation").append(option);
   }
 }
+//Display Date function add options that are today date and 4 days from today
 function displayDateOption(forecast) {
   let date_display = date.getFullYear() + "-" + month + "-" + day;
   let option = `<option value="${date_display}">` + date_display + "</option>";
@@ -21,6 +24,9 @@ function displayDateOption(forecast) {
     $("#eventDate").append(option);
   }
 }
+//Display Time Option add options to the time
+// for hour section domain is 0-23
+// hour and mins section domain is 0-59
 function displayTimeOption() {
   for (i = 0; i < 24; i++) {
     i = ("0" + i).slice(-2);
@@ -33,6 +39,8 @@ function displayTimeOption() {
     $("#smin, #emin, #ssec, #esec").append(option);
   }
 }
+//This portion is to sort the objects within the array by
+//the value of the key date
 function sortDate(task1,task2){
   if(task1.eventDate > task2.eventDate){
     return 1;
@@ -44,6 +52,8 @@ function sortDate(task1,task2){
     return 0;
   }    
 }
+//This portion is to sort the objects within the array by
+//the value of the key time
 function sortTime(task1,task2){
   if(task1.startTime > task2.startTime){
     return 1;
@@ -55,6 +65,7 @@ function sortTime(task1,task2){
     return 0;
   }
 }
+// This function create an object for event list
 function TaskObject(eventName, locationIndex,eventDate,startTime,endTime){
   this.eventName = eventName;
   this.locationIndex = locationIndex;
@@ -62,8 +73,12 @@ function TaskObject(eventName, locationIndex,eventDate,startTime,endTime){
   this.startTime = startTime;
   this.endTime = endTime;
 }
-function processTask(){
-}
+//Display task list gets information from each task
+// if task date is today, it will extract information from
+//weafc24hr which is 24hour weather forecast api information
+// if the task date is 24hr< task Date< 4 days
+// It will take information from forecast which is 
+//information from 4 day weather forcast api
 function displayTasklist(task,weaFc24Hr,forecast){
   $("#tasks div").remove();
   for(i = 0; i<task.length; i ++){
@@ -108,6 +123,7 @@ function displayTasklist(task,weaFc24Hr,forecast){
   <div class ="col-sm">Relative Humidity: <div>${relativeHumidity}</div></div>
   <div class ="col-sm">Wind Speed : <div>${windSpeed}</div></div>`
   );
+  //Added an X so that user can clear event if completed
   $(`#${key}`).append(`<button id="${key+"x"}">X</button>`);
   $(`#${key} div, #${key+"x"}`).hide();
   sessionStorage.setItem(key,JSON.stringify("true"));
@@ -132,17 +148,17 @@ function displayTasklist(task,weaFc24Hr,forecast){
     localStorage.setItem("task",JSON.stringify(task));
     displayTasklist(task,weaFc24Hr,forecast);
   })
-  } 
- 
+  }
 }
 $(document).ajaxStop(function () {
+  //Load information into form
   displayTimeOption();
   displayEventLocation(area);
   var weaFc4d = JSON.parse(sessionStorage.getItem("4DayFC"));
   let forecast = weaFc4d.items[0].forecasts;
   displayDateOption(forecast);
   var weaFc24Hr = JSON.parse(sessionStorage.getItem("24HourFC"));
-
+  //Enable toggle to expand for the form
   if ($(window).width()<=576){
     $("form div").hide();
     let formHidden = true;
@@ -156,6 +172,7 @@ $(document).ajaxStop(function () {
     }
   })
   }
+  //This portion extract data from local storage
   let task;
   if (JSON.parse(localStorage.getItem("task")) == null){
     task = [];
@@ -164,7 +181,7 @@ $(document).ajaxStop(function () {
     let todayDate = date.getFullYear()+"-"+month+"-"+day;
     for(i=0;i<task.length;i++){
       let currentTask = task[i];
-      if(currentTask.date < todayDate){
+      if(currentTask.eventDate < todayDate){
         task.splice(i,1)
         localStorage.setItem("task",JSON.stringify(task));
       }else{
@@ -172,8 +189,11 @@ $(document).ajaxStop(function () {
       }
     }
   }
+  //Once task array is loaded it will display all the events
+  //saved by user
   displayTasklist(task,weaFc24Hr,forecast)
   $("#button").click(function (event) {
+    //Gather value input from form
     $(".error div").remove();
     event.preventDefault();
     let locationIndex = $("select#scheduleLocation").val();
@@ -197,11 +217,15 @@ $(document).ajaxStop(function () {
     else if(endTime<=startTime){
       $(".error").append("<div>Error, Start time and End Time input error!</div>");
     }else{
+      //create object
       let newTask = new TaskObject(eventName, locationIndex,eventDate,startTime,endTime);
       task.push(newTask);
+      //sort the object
       task.sort(sortTime);
       task.sort(sortDate);
+      //add into local storage
       localStorage.setItem("task",JSON.stringify(task));
+      //display
       displayTasklist(task,weaFc24Hr,forecast)
     }    
   });
