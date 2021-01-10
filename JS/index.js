@@ -617,7 +617,7 @@ function chartPSI(label_x, psiData) {
       },
     });
   } else {
-    myChart = new Chart(ctx, {
+    var myChart = new Chart(ctx, {
       type: "line",
       data: {
         labels: label,
@@ -796,7 +796,7 @@ function chart4Day(weaFc24Hr, weaFc4d) {
       },
     });
   } else {
-    d4Chart = new Chart(ttx, {
+    var d4Chart = new Chart(ttx, {
       type: "line",
       data: {
         labels: label,
@@ -827,7 +827,7 @@ function chart4Day(weaFc24Hr, weaFc4d) {
         },
       },
     });
-    r4Chart = new Chart(rtx, {
+    var r4Chart = new Chart(rtx, {
       type: "line",
       data: {
         labels: label,
@@ -858,7 +858,7 @@ function chart4Day(weaFc24Hr, weaFc4d) {
         },
       },
     });
-    w4Chart = new Chart(wtx, {
+    var w4Chart = new Chart(wtx, {
       type: "line",
       data: {
         labels: label,
