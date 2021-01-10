@@ -116,9 +116,11 @@ From 2nd of January 2021 to 5th January 2021, there was internal server error re
 ## Credits
 * For APIs used in the project are from data.gov.sg
 * For [Technology](https://github.com/S10205010/IDAssignment2#technologies-used) used are all in Technology Section
+
 To better use Javascript, CSS, HTML:
 * [w3schools](https://www.w3schools.com/)
 * [MDN Web Docs](https://developer.mozilla.org/en-US/)
 * [jQuery](https://jquery.com/)
+
 Others
 * stackoverflow
