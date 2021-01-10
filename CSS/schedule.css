@@ -1,0 +1,17 @@
+main form div div{
+    margin: 10px auto;
+}
+#eventName{
+    border-style: none none solid none;
+    float:right;
+    margin-right:15%;
+}
+#startTime,#endTime{
+    float:right;
+    margin-right: 15%;
+}
+#eventDate,#scheduleLocation,#button{
+    border-style: none none none none;
+    float:right;
+    margin-right:15%;
+}
