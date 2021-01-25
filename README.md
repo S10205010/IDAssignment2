@@ -30,6 +30,8 @@ This feature allows user to visualize the data. From the charts they will be abl
 This feature allows user to insert the events that they plan on the day itself or within 4 days before. It will give the appropriate forecast for that day.
 #### Event List
 This feature display events according to the dates and times of each event. It allows user to delete events that they canceled.
+### Local Storage for Event List
+This is used so that user can save the events on to their devices and not need to re-enter the event into their device.
 #### Light and Dark mode
 Light and Dark mode allows users to choose their viewing experience. If users are in a bright environment, users can use Light mode. Whereas users who prefer to view the website in a darker environment, may prefer a darker viewing experience. User can just toggle between the modes. Light mode is default.
 #### Mobile-friendly
@@ -61,6 +63,7 @@ This website is able to be used on mobile phones.
 * [2-Hour-Weather-Forecast](https://data.gov.sg/dataset/weather-forecast?resource_id=571ef5fb-ed31-48b2-85c9-61677de42ca9)
 * [24-Hour=Weather-Forecast](https://data.gov.sg/dataset/weather-forecast?resource_id=9a8bd97e-0e38-46b7-bc39-9a2cb4a53a62)
 * [4-Day-Weather-Forecast](https://data.gov.sg/dataset/weather-forecast?resource_id=4df6d890-f23e-47f0-add1-fd6d580447d1)
+* [Pollutant Standards Index (PSI)](https://data.gov.sg/dataset/psi)
 
 ## Automated Test
 For HTML:
@@ -112,6 +115,9 @@ For best practices with JS:
 ### Issues faced
 #### APIs Error 500/ response received but required data missing
 From 2nd of January 2021 to 5th January 2021, there was internal server error relating to the above APIs used in this project. This result in error 500 or data that is requested returns with key and the values are empty objects. To not hinder the website process, I decided to hardcode the JSON file response to deal with this issue. In a case of error or a case where the data needed from the API is unable to be process, the java script will process the hardcoded JSON file instead.
+#### API bad request
+Edited file on 25/01/2021.
+Issue is caused by date.toLocaleTimeString(). The code did not account of AM and PM at the end of string and that the hours is not 2 digit like "01" but "1". This result in bad request for APIs causing APIs to fail to load.
 
 ## Credits
 * For APIs used in the project are from data.gov.sg
