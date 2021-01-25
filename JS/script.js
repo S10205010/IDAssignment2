@@ -575,8 +575,7 @@ var date_time =
   month +
   "-" +
   day +
-  "T" +
-  ("0"+date.toLocaleTimeString()).slice(0,9);
+  "T" +date.toLocaleTimeString();
 var date_d = date.getFullYear() + "-" + month + "-" + day;
 
 //API request section
