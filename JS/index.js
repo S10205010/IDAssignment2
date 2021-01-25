@@ -20,7 +20,7 @@ var date_time =
   "-" +
   day +
   "T" +
-  date.toLocaleTimeString();
+  date.toTimeString().slice(0,8);
 var date_d = date.getFullYear() + "-" + month + "-" + day;
 //API for PSI
 //Plans to get full day readings
