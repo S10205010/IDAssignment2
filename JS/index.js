@@ -107,17 +107,16 @@ $(document).ajaxStop(function () {
   load24Hour(weaFc24Hr);
   chartPSI(label, psiData);
   chart4Day(weaFc24Hr, weaFc4d);
-  $("#d4Temp,#d4rh,#d4ws,#PSIChart").hide();
   //light dark mode function
   $("#LightDarkMode").click(function () {
     chartPSI(label, psiData);
     chart4Day(weaFc24Hr, weaFc4d);
   });
   //This portion allows the chart to toggle between seen and hidden
-  var chart4dTempHidden = true;
-  var chart4dRHHidden = true;
-  var chart4dWSHidden = true;
-  var chartPSIHidden = true;
+  var chart4dTempHidden = false;
+  var chart4dRHHidden = false;
+  var chart4dWSHidden = false;
+  var chartPSIHidden = false;
   $("#psi-container").click(function () {
     if (chartPSIHidden == true) {
       $("#PSIChart").show();
