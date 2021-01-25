@@ -559,7 +559,7 @@ const area_JSON = {"area_metadata": [
 var date = new Date();
 var month;
 var day;
-if (date.getMonth() <= 9) {
+if (date.getMonth() < 9) {
   month = "0" + (date.getMonth() + 1);
 } else {
   month = date.getMonth() + 1;
@@ -588,7 +588,7 @@ $.ajax({
   dataType: "json",
   contentType: "text/plain",
   url: "https://api.data.gov.sg/v1/environment/air-temperature",
-  data: { date_time: date_time, date: date_d },
+  data: { date_time: date_time},
   error: function (status, request) {
     console.log(`Air Temperature API ${request} ${status.status}`);
     sessionStorage.setItem("airTemp", JSON.stringify(failedAPI));
@@ -607,7 +607,7 @@ $.ajax({
   dataType: "json",
   contentType: "text/plain",
   url: "https://api.data.gov.sg/v1/environment/relative-humidity",
-  data: { date_time: date_time, date: date_d },
+  data: { date_time: date_time},
   error: function (status, request) {
     console.log(`Relative Humidity API ${request} ${status.status}`);
     sessionStorage.setItem("relativeHumidity", JSON.stringify(failedAPI));
@@ -626,7 +626,7 @@ $.ajax({
   dataType: "json",
   contentType: "text/plain",
   url: "https://api.data.gov.sg/v1/environment/wind-speed",
-  data: { date_time: date_time, date: date_d },
+  data: { date_time: date_time},
   error: function (status, request) {
     console.log(`Wind Speed API ${request} ${status.status}`);
     sessionStorage.setItem("WindSpeed", JSON.stringify(failedAPI));
@@ -645,7 +645,7 @@ $.ajax({
   dataType: "json",
   contentType: "text/plain",
   url: "https://api.data.gov.sg/v1/environment/2-hour-weather-forecast",
-  data: { date_time: date_time, date: date_d },
+  data: { date_time: date_time},
   error: function (status, request) {
     console.log(`2 Hour Weather Forecast API ${request} ${status.status}`);
     sessionStorage.setItem("02HourFC", JSON.stringify(failed2hrFC));
@@ -664,7 +664,7 @@ $.ajax({
   dataType: "json",
   contentType: "text/plain",
   url: "https://api.data.gov.sg/v1/environment/24-hour-weather-forecast",
-  data: { date_time: date_time, date: date_d },
+  data: { date_time: date_time},
   error: function (status, request) {
     console.log(`24 Hour Weather Forecast API ${request} ${status.status}`);
     sessionStorage.setItem("24HourFC", JSON.stringify(failed24hrFC));
@@ -685,7 +685,7 @@ $.ajax({
   dataType: "json",
   contentType: "text/plain",
   url: "https://api.data.gov.sg/v1/environment/4-day-weather-forecast",
-  data: { date_time: date_time, date: date_d },
+  data: { date_time: date_time},
   error: function (status, request) {
     console.log(`4 Day Weather Forecast API ${request} ${status.status}`);
     sessionStorage.setItem("4DayFC", JSON.stringify(failed4dayFC));
